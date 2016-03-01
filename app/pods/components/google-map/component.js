@@ -47,14 +47,12 @@ export default Ember.Component.extend({
           });
         }
         else if (type === 2) {
-          if (type === 1) {
-            marker = new google.maps.Marker({
-                position: latLng,
-                map: map,
-                animation: google.maps.Animation.DROP,
-                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-            });
-          }
+          marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              animation: google.maps.Animation.DROP,
+              icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+          });
         }
         else if (type === 3) {
           marker = new google.maps.Marker({
