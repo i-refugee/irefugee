@@ -1,0 +1,49 @@
+<div class="container-fluid">
+	<div class="row" style="margin-top:10px;">
+		<div class="col-md-4">
+			<img class="img-responsive" src="/assets/kollias.jpg">
+		</div>
+		<div class="col-md-4 details">
+				{{#if isCurrentCenter}}
+					<div {{action 'editCenterInfo'}} class="pull-right">
+						{{fa-icon icon="edit" title="Επεξεργασία"}}
+					</div>
+				{{/if}}
+				{{#if isEditing}}
+					<form>
+					  <div class="form-group">
+					    <label for="address_input">Διεύθυνση</label>
+					    {{input value=model.city type="text" class="form-control" id="address_input" placeholder="Διεύθυνση"  required='required'}}
+					  </div>
+					  <div class="form-group">
+					    <label for="phone_input">Τηλέφωνο</label>
+					    {{input value=model.phone type="text" class="form-control" id="phone_input" placeholder="Τηλέφωνο"  required='required'}}
+					  </div>
+					  <div class="form-group">
+					    <label for="refugees_input">Αριθμός Προσφύφων</label>
+					    {{input value=model.refugees type="number" class="form-control" id="refugees_input" placeholder="Αριθμός Προσφύφων" required='required'}}
+					  </div>
+					  <div class="form-group">
+					    <label for="mail_input">E-mail</label>
+					    {{input value=model.contactmail type="email" class="form-control" id="mail_input" placeholder="E-mail"  required='required'}}
+					  </div>
+					  <button {{action 'submitInfo'}} type="submit" class="btn btn-success">Καταχώρηση</button>
+					  <button {{action 'cancelInfo'}} type="submit" class="btn btn-warning">Ακύρωση</button>
+					</form>
+				{{else}}
+					<p id="address">{{fa-icon icon="map" title="Διεύθυνση"}} {{model.city}} </p>
+					<p id="phone">{{fa-icon icon="phone" title="Τηλέφωνο"}} {{model.phone}} </p>
+					<p id="refugees">{{fa-icon icon="users" title="Πρόσφυγες"}} {{model.refugees}} </p>
+					<p id="mail">{{fa-icon icon="envelope" title="E-mail"}} {{model.contactmail}} </p>
+				{{/if}}
+					<p id="type">{{model.type}} </p>
+		</div>
+		<div class="col-md-4">
+			{{google-map-one-center center=model}}
+		</div>
+	</div>
+	<div class="row" style="margin-top:10px;">
+		{{center-needs center=model isCurrentCenter=isCurrentCenter}}
+	</div>	
+</div>
+{{outlet}}

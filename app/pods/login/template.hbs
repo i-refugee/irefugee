@@ -1,0 +1,14 @@
+{{#if session.isAuthenticated}}
+{{else}}
+	<form {{action 'authenticate' on='submit'}}>
+	  <label for="identification">Email</label>
+	  {{input id='identification' placeholder='Email' value=identification}}
+	  <label for="password">Κώδικος</label>
+	  {{input id='password' placeholder='Κώδικος' type='password' value=password}}
+	  <button type="submit">Login</button>
+	  {{#if errorMessage}}
+	    <p>{{errorMessage}}</p>
+	  {{/if}}
+	</form>
+{{/if}}
+{{outlet}}

@@ -1,8 +1,11 @@
 {
   "predef": [
+    "server",
     "document",
     "window",
-    "-Promise"
+    "-Promise",
+    "google",
+    "$"
   ],
   "browser": true,
   "boss": true,

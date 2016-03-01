@@ -3,6 +3,7 @@
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'front-end',
+    podModulePrefix: 'front-end/pods',
     environment: environment,
     baseURL: '/',
     locationType: 'auto',
@@ -42,6 +43,22 @@ module.exports = function(environment) {
   if (environment === 'production') {
 
   }
+
+ ENV.contentSecurityPolicy = {
+    'style-src': "'self' 'unsafe-inline'",
+    'connect-src': "'self' http://server.test2.beenotes.eu http://server.test2.beenotes.eu",
+    'script-src': "'self' 'unsafe-eval' 'unsafe-inline'  https://*.google.com http://*.gstatic.com http://*.googleapis.com https://*.googleapis.com https://*.gstatic.com",
+    'img-src': "'self' data: http://*.google.com https://*.googleapis.com https://*.gstatic.com",
+    'font-src': "'self' https://*.gstatic.com",
+    'style-src': "'self' 'unsafe-inline' https://*.googleapis.com https://*.google.com",
+    'media-src': "'self' 'unsafe-inline' http://server.test2.beenotes.eu"
+}
+
+ENV['ember-simple-auth'] = {
+  authenticationRoute: 'login',
+  routeAfterAuthentication: '/',
+  routeIfAlreadyAuthenticated: '/'
+};
 
   return ENV;
 };

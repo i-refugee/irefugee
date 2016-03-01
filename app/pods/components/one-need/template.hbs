@@ -1,0 +1,29 @@
+<div class="col-md-4 center-need">
+	{{centerNeed.updatedAt}}
+	<div class="panel {{if (eq centerNeed.importance 0) "panel-default"}} {{if (eq centerNeed.importance 1) "panel-warning"}} {{if (eq centerNeed.importance 2) "panel-danger"}}">
+	  <div class="panel-heading">
+	  	{{centerNeed.name}}
+	  	{{#if isCurrentCenter}}
+	  		<i {{action 'edit'}} class='fa fa-edit pull-right'></i>
+	  	{{/if}}
+	  	{{#if (eq centerNeed.importance 2)}}
+	  		<i class='fa fa-warning pull-right'></i>
+		{{/if}}	  		
+	  </div>
+	  <div class="panel-body">
+	  		{{centerNeed.text}}
+ 		</div>
+ 		{{#if isEditing}}
+		   	<div class="pull-left">
+		   		Σημασία:
+		   		{{#x-select value=centerNeed.importance}}
+				  {{#x-option value=0}}Μικρή{{/x-option}}
+				  {{#x-option value=1}}Μέτρια{{/x-option}}
+				  {{#x-option value=2}}Μεγάλη{{/x-option}}
+				{{/x-select}}
+		   	</div>
+ 			<button class="btn btn-success pull-right" {{action 'submit'}}>Καταχώρηση</button>
+ 		{{/if}}
+	</div>
+</div>
+{{yield}}

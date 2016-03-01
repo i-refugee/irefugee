@@ -1,0 +1,39 @@
+
+
+
+{{google-map centers=model transitToCenter="transitToCenter"}}
+<div class="container-fluid" id="main">
+  <div class="row">
+  	<div class="col-xs-6" id="left">
+      <h2>Κέντρα</h2>
+            
+      <div class="row">
+        <!-- item list -->
+        {{#each model as |center|}}
+          <div class="col-xs-6">
+            {{box-center center=center}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+    <div class="col-xs-4">	</div>    
+  </div>
+</div>
+<!-- end template -->
+
+{{!-- 
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-6 list-container" style="padding-right:0;">
+			{{#each model as |center|}}
+				<div class="col-xs-6">
+					{{box-center center=center}}
+				</div>
+			{{/each}}
+		</div>
+		<div class="col-xs-6" style="padding-right:0;">
+			{{google-map centers=model transitToCenter="transitToCenter"}}
+		</div>
+	</div>
+</div> --}}
+{{outlet}}

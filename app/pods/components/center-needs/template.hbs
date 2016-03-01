@@ -1,0 +1,8 @@
+{{#if center.centerNeeds}}
+	{{#each center.centerNeeds as |centerNeed|}}
+		{{#if centerNeed}}
+			{{one-need centerNeed=centerNeed isCurrentCenter=isCurrentCenter}}
+		{{/if}}
+	{{/each}}
+{{/if}}
+{{yield}}
