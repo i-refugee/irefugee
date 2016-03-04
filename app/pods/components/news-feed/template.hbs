@@ -1,0 +1,9 @@
+<ul class="list-group news-feed">
+{{#if news}}
+	{{#each news as |new|}}
+		<li class="list-group-item"> {{new.content}} </li>
+	{{/each}}
+{{/if}}
+</ul>
+
+{{yield}}

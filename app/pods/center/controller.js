@@ -24,7 +24,7 @@ export default Ember.Controller.extend({
 			});
 		},	
 		cancelInfo: function() {
-			this.get('model').rollback();
+			this.get('model').rollbackAttributes();
 			this.set('isEditing', false);
 		}
 	}

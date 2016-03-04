@@ -34,8 +34,6 @@ export default Ember.Component.extend({
 /*        latLngBounds.extend(latLng);
 */
 
-        
-
         var type = centers[i].get('type');
 
         if (type === 1) {

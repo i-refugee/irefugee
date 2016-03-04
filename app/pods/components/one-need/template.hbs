@@ -4,7 +4,7 @@
 	  <div class="panel-heading">
 	  	{{centerNeed.name}}
 	  	{{#if isCurrentCenter}}
-	  		<i {{action 'edit'}} class='fa fa-edit pull-right'></i>
+	  		<button class='fa fa-edit pull-right active' {{action 'edit'}} ></button>
 	  	{{/if}}
 	  	{{#if (eq centerNeed.importance 2)}}
 	  		<i class='fa fa-warning pull-right'></i>
@@ -23,6 +23,7 @@
 				{{/x-select}}
 		   	</div>
  			<button class="btn btn-success pull-right" {{action 'submit'}}>Καταχώρηση</button>
+ 			<button class="btn btn-warning pull-right" {{action 'cancel'}}>Ακύρωση</button>
  		{{/if}}
 	</div>
 </div>

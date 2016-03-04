@@ -433,6 +433,145 @@ export default function() {
     return {
     }
   });  
+
+
+
+this.get('/news-feeds', function() {
+  return {
+    data: [{
+      type: 'news-feed',
+      id: 1,
+      attributes: {
+        name: 'Grand Old Mansion',
+        owner: 'Veruca Salt',
+        city: 'San Francisco',
+        type: 'Estate',
+        bedrooms: 15,
+        latitude: 37.9624255,
+        longitude: 23.7573327,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Crane_estate_(5).jpg',
+        type: 1,
+        refugees: 522
+      }
+    }, {
+      type: 'news-feed',
+      id: 2,
+      attributes: {
+        name: 'Urban Living',
+        owner: 'Mike Teavee',
+        city: 'Seattle',
+        type: 'Condo',
+        bedrooms: 1,
+        latitude: 38.6113327,
+        longitude: 23.3244417,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Alfonso_13_Highrise_Tegucigalpa.jpg',
+        type: 2,
+        refugees: 205,
+        phone: "69435567444",
+        contactmail: "xontros@gmail.com"
+      }
+    },
+{
+      type: 'news-feed',
+      id: 13,
+      attributes: {
+        name: 'Grand Old Mansion',
+        owner: 'Veruca Salt',
+        city: 'San Francisco',
+        type: 'Estate',
+        bedrooms: 15,
+        latitude: 37.9624255,
+        longitude: 23.7573327,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Crane_estate_(5).jpg',
+        type: 1,
+        refugees: 522
+      }
+    }, {
+      type: 'news-feed',
+      id: 92,
+      attributes: {
+        name: 'Urban Living',
+        owner: 'Mike Teavee',
+        city: 'Seattle',
+        type: 'Condo',
+        bedrooms: 1,
+        latitude: 38.6113327,
+        longitude: 23.3244417,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Alfonso_13_Highrise_Tegucigalpa.jpg',
+        type: 2,
+        refugees: 205,
+        phone: "69435567444",
+        contactmail: "xontros@gmail.com"
+      }
+    },
+{
+      type: 'news-feed',
+      id: 11,
+      attributes: {
+        name: 'Grand Old Mansion',
+        owner: 'Veruca Salt',
+        city: 'San Francisco',
+        type: 'Estate',
+        bedrooms: 15,
+        latitude: 37.9624255,
+        longitude: 23.7573327,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Crane_estate_(5).jpg',
+        type: 1,
+        refugees: 522
+      }
+    }, {
+      type: 'news-feed',
+      id: 25,
+      attributes: {
+        name: 'Urban Living',
+        owner: 'Mike Teavee',
+        city: 'Seattle',
+        type: 'Condo',
+        bedrooms: 1,
+        latitude: 38.6113327,
+        longitude: 23.3244417,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Alfonso_13_Highrise_Tegucigalpa.jpg',
+        type: 2,
+        refugees: 205,
+        phone: "69435567444",
+        contactmail: "xontros@gmail.com"
+      }
+    },
+{
+      type: 'news-feed',
+      id: 13,
+      attributes: {
+        name: 'Grand Old Mansion',
+        owner: 'Veruca Salt',
+        city: 'San Francisco',
+        type: 'Estate',
+        bedrooms: 15,
+        latitude: 37.9624255,
+        longitude: 23.7573327,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/Crane_estate_(5).jpg',
+        type: 1,
+        refugees: 522
+      }
+    }, {
+      type: 'news-feed',
+      id: 22,
+      attributes: {
+        name: 'Urban Living',
+        owner: 'Mike Teavee',
+        city: 'Seattle',
+        type: 'Condo',
+        bedrooms: 1,
+        latitude: 38.6113327,
+        longitude: 23.3244417,
+        content: 'https://upload.wikimedia.org/wikipedia/commons/0/0e/Alfonso_13_Highrise_Tegucigalpa.jpg',
+        type: 2,
+        refugees: 205,
+        phone: "69435567444",
+        contactmail: "xontros@gmail.com"
+      }
+    }
+    ]
+  };
+});  
+
 }
-
-
