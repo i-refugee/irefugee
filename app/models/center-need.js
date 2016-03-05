@@ -2,8 +2,8 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   center: DS.belongsTo('center', {async: true}),
-  name: DS.attr('string'),
+  need: DS.belongsTo('need', {async: true}),
   importance: DS.attr('number'),
-  text: DS.attr('string'),
+  description: DS.attr('string'),
   updatedAt: DS.attr('date')
 });

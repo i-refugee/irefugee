@@ -1,8 +1,6 @@
-{{#if center.centerNeeds}}
+{{#if center.centerNeeds.isFulfilled}}
 	{{#each center.centerNeeds as |centerNeed|}}
-		{{#if centerNeed}}
-			{{one-need centerNeed=centerNeed isCurrentCenter=isCurrentCenter}}
-		{{/if}}
+		{{one-need centerNeed=centerNeed isCurrentCenter=isCurrentCenter}}
 	{{/each}}
 {{/if}}
 {{yield}}

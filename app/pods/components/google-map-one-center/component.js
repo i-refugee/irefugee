@@ -16,7 +16,7 @@ export default Ember.Component.extend({
     
       var lt, lg, i, marker, latLng;
 
-        var type = center.get('type');
+        var type = center.get('centerType');
 
         lt = center.get('latitude');
         lg = center.get('longitude');

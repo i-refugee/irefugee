@@ -1,9 +1,10 @@
-<ul class="list-group news-feed">
-{{#if news}}
-	{{#each news as |new|}}
-		<li class="list-group-item"> {{new.content}} </li>
-	{{/each}}
-{{/if}}
+<ul class="list-group news-feed" id="news-feed">
+	{{#if news}}
+		{{#each news as |new|}}
+			<li class="list-group-item"> {{#link-to 'center' new.center.id}} {{new.content}} 
+			<span class="pull-right"> {{moment-format new.createdAt 'D MMM, h:mm:ss a'}} </span> {{/link-to}}</li>
+		{{/each}}
+	{{/if}}
 </ul>
 
 {{yield}}

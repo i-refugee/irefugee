@@ -3,12 +3,12 @@
 		<div class="panel-heading">{{#link-to 'center' center}}{{center.name}}{{/link-to}}</div>
 	</div>
 	<div class="col-xs-6">
-		<img class="center-list-image pull-left" src="/assets/kollias.jpg">
+		{{lazy-image class="center-list-image pull-left" url=(if center.imageUrl center.imageUrl "/assets/kollias.jpg")}}
 	</div>
 	<div class="col-xs-6" style="padding-left: 0; margin-left: 0;">
-		<p class="center-location-list">{{center.city}}</p>
-		<p class="center-ref-list">{{center.refugeeCount}} Πρόσφυγες</p>
-		<p class="center-ref-list"><b>Τύπος Κέντρου:</b> {{center.type}}</p>
+		<p class="center-location-list">{{center.address}}</p>
+		<p class="center-ref-list">{{center.refugeesNumber}} Πρόσφυγες</p>
+		<p class="center-ref-list"><b>Τύπος Κέντρου:</b> {{center.centerType}}</p>
 	</div>
 </div>
 

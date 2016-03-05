@@ -3,8 +3,8 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
 	session: Ember.inject.service(),
 	isEditing: false,
-	isCurrentCenter: Ember.computed('model', 'session.currentCenter', function(){
-		if (this.get('model').get('id') === this.get('session.currentCenter.id')) {
+	isCurrentCenter: Ember.computed('model', 'session.data.currentCenterId', function(){
+		if (this.get('model').get('id') === this.get('session.data.currentCenterId')) {
 			return true;
 		}
 		else {
@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
 		submitInfo: function() {
 			var _this = this;
 			this.get('model').save().then(function(){
-				_this.set('isEditing', true);
+				_this.set('isEditing', false);
 			}).catch(function(){
 				// error
 			});

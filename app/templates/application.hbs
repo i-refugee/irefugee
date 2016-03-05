@@ -7,10 +7,12 @@
       </a>
     </div>
     <div class="navbar-collapse collapse">
+{{!--         {{tour-shepherd}}
+ --}}
       <ul class="nav navbar-nav">
         {{#if session.isAuthenticated}}
           <li {{action 'invalidate'}}><a>Αποσύνδεση</a></li>
-          <li>{{#link-to 'center' session.currentCenter}}Η ομάδα μου{{/link-to}}</li>
+          <li>{{#link-to 'center' session.data.currentCenterId}}Η ομάδα μου{{/link-to}}</li>
         {{else}}  
           <li>{{#link-to 'login'}}Σύνδεση{{/link-to}}</li>
         {{/if }}

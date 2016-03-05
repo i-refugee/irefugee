@@ -1,0 +1,13 @@
+<h2>Κέντρα</h2>
+
+<button{{action 'search'}}>Search</button>
+
+<div class="row" id="centers">
+<!-- item list -->
+	{{#each centers as |center|}}
+  		<div class="col-xs-6">
+    		{{box-center center=center}}
+  		</div>
+	{{/each}}
+</div>
+{{yield}}

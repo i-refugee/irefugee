@@ -1,8 +1,8 @@
 <div class="col-md-4 center-need">
-	{{centerNeed.updatedAt}}
 	<div class="panel {{if (eq centerNeed.importance 0) "panel-default"}} {{if (eq centerNeed.importance 1) "panel-warning"}} {{if (eq centerNeed.importance 2) "panel-danger"}}">
 	  <div class="panel-heading">
-	  	{{centerNeed.name}}
+	  	{{centerNeed.need.name}}
+	  	(Ανανεώθηκε: {{moment-format centerNeed.updatedAt 'D/M'}})
 	  	{{#if isCurrentCenter}}
 	  		<button class='fa fa-edit pull-right active' {{action 'edit'}} ></button>
 	  	{{/if}}
@@ -11,7 +11,7 @@
 		{{/if}}	  		
 	  </div>
 	  <div class="panel-body">
-	  		{{centerNeed.text}}
+	  		{{{centerNeed.description}}}
  		</div>
  		{{#if isEditing}}
 		   	<div class="pull-left">

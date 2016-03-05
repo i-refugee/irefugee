@@ -34,7 +34,7 @@ export default Ember.Component.extend({
 /*        latLngBounds.extend(latLng);
 */
 
-        var type = centers[i].get('type');
+        var type = centers[i].get('centerType');
 
         if (type === 1) {
           marker = new google.maps.Marker({

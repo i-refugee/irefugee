@@ -4,16 +4,7 @@
 <div class="container-fluid" id="main">
   <div class="row">
   	<div class="col-xs-6" id="left">
-      <h2>Κέντρα</h2>
-            
-      <div class="row">
-        <!-- item list -->
-        {{#each model as |center|}}
-          <div class="col-xs-6">
-            {{box-center center=center}}
-          </div>
-        {{/each}}
-      </div>
+      {{centers-list centers=model}}
     </div>
     <div class="col-xs-4">	</div>    
   </div>
