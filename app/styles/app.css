@@ -2,6 +2,14 @@
   cursor: pointer;
 }
 
+.black {
+	color: black;
+}
+
+.orange {
+	color: orange;
+}
+
 .dropzone {
 	height: 50px;
 	width: 50px;

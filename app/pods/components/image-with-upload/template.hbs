@@ -1,5 +1,5 @@
 <div id="img-container">
-	<img src={{if model.imageUrl model.imageUrl "/assets/kollias.jpg"}} id="profile-image" alt="">
+	<img src={{if center.imageUrl center.imageUrl "/assets/kollias.jpg"}} id="profile-image" alt="">
 	<div id="caption">
 		{{#pl-uploader for="upload-image" max-file-size="2000000" extensions="jpg jpeg png bmp" onfileadd="uploadImage" as |queue dropzone|}}
 			<a id="upload-image" style="cursor: pointer;">

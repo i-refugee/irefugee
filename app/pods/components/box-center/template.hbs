@@ -9,6 +9,11 @@
 		<p class="center-location-list">{{center.address}}</p>
 		<p class="center-ref-list">{{center.refugeesNumber}} Πρόσφυγες</p>
 		<p class="center-ref-list"><b>Τύπος Κέντρου:</b> {{center.centerType}}</p>
+
+		{{#each center.keywords as |key|}}
+			{{key.keyword}}
+		{{/each}}
+
 	</div>
 </div>
 

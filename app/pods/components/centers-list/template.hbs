@@ -1,10 +1,47 @@
 <h2>Κέντρα</h2>
 
-<button{{action 'search'}}>Search</button>
+<button {{action 'toggleSearch'}} class="btn btn-info">Αναζήτηση</button>
+{{#liquid-if showSearch class="search"}}
+  <div class="row">
+    <button {{action 'clear'}}>Καθαρισμός</button>
+  </div>
+  <span> Με Κωδική Λεξη </span>
+  <div class="col-xs-6">
+    {{#power-select-multiple
+      options=keywords
+      selected=keys
+      searchField="keyword"
+      onchange=(action (mut keys))
+      as |keyword|
+    }}
+      {{keyword.keyword}}
+    {{/power-select-multiple}}
+  </div>
+  <h5>Με σημαντικότητα αναγκών</h5>
+  <div class="needs">
+  	{{#each needs as |need|}}
+  		<span id={{need.id}} {{action 'filter_by_needs' need}} class="black">{{need.name}}</span> 
+  	{{/each}}
+  </div>
+
+  <div class="row">
+    <div class="col-xs-12">
+      <form class="form-inline" role="form">
+        <div class="checkbox">
+          <label>{{input type="checkbox" checked=by_address action 'change_checkbox' 0}} Βάση διεύθυνσης </label>
+          {{input id="place_search"}}        
+        </div>
+        <div class="checkbox">
+          <label>{{input type="checkbox" checked=by_me action 'change_checkbox' 1}} Με βάση την τοποθεσία μου </label>
+        </div>
+      </form>
+    </div>
+  </div>
+{{/liquid-if}}
 
 <div class="row" id="centers">
 <!-- item list -->
-	{{#each centers as |center|}}
+	{{#each filt_centers as |center|}}
   		<div class="col-xs-6">
     		{{box-center center=center}}
   		</div>

@@ -2,7 +2,11 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
 	model: function() {
-		return this.store.findAll('center');
+		return Ember.RSVP.hash({
+			centers: this.store.findAll('center'),
+			keywords: this.store.findAll('keyword'),
+			needs: this.store.findAll('need')
+		})
 	},
 	actions: {
 		transitToCenter: function(centerId) {

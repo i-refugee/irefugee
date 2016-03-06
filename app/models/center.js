@@ -15,5 +15,8 @@ export default DS.Model.extend({
   updatedAt: DS.attr('date'),
   imageUrl: DS.attr('string'),
   centerNeeds: DS.hasMany('center-need', {async: true}),
-  statuses: DS.hasMany('status', {async: true})
+  importantNeeds: DS.hasMany('need', {async: true, inverse: null}),
+  statuses: DS.hasMany('status', {async: true}),
+  centerKeywords: DS.hasMany('center-keyword', {async: true}),
+  keywords: DS.hasMany('keyword', {async: true})
 });
