@@ -8,6 +8,7 @@ export default Ember.Component.extend({
 	placeToGeolocate: null,
 	by_address: false,
 	by_me: false,
+	loading: false,
 	observeCheckboxAddress: function() {
 		if (this.get('by_address')) {
 			this.set('by_me', !this.get('by_address'));
@@ -28,7 +29,7 @@ export default Ember.Component.extend({
 		this.set('filt_centers', this.get('centers'));
 	}.on('init'),
 	global_search: function() {
-
+		this.set('loading', true);
 		var centers = this.get('centers').toArray();
 	
 		var _this = this;
@@ -64,6 +65,7 @@ export default Ember.Component.extend({
 						if (place) {
 							sorted_centers = filtered_twice.sort(position(place.geometry.location.lat(), place.geometry.location.lng()));
 							_this.set('filt_centers', sorted_centers);
+							_this.set('loading', false);
 
 						}
 						else {
@@ -79,7 +81,7 @@ export default Ember.Component.extend({
 						function showPosition(pos) {
 							sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
 							_this.set('filt_centers', sorted_centers);
-
+							_this.set('loading', false);
 						}
 					}
 
@@ -87,6 +89,7 @@ export default Ember.Component.extend({
 					else {
 						filtered_thrice = filtered_twice;
 						_this.set('filt_centers', filtered_thrice);
+						_this.set('loading', false);
 					}
 
 			});
@@ -106,7 +109,7 @@ export default Ember.Component.extend({
 				if (place) {
 					sorted_centers = filtered_twice.sort(position(place.geometry.location.lat(), place.geometry.location.lng()));
 					this.set('filt_centers', sorted_centers);
-
+					this.set('loading', false);
 				}
 				else {
 					alert('Παρακαλώ Εισάγετε Διεύθυνση');
@@ -121,6 +124,7 @@ export default Ember.Component.extend({
 				function showPosition(pos) {
 					sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
 					_this.set('filt_centers', sorted_centers);
+					_this.set('loading', false);
 
 				}
 			}
@@ -129,6 +133,8 @@ export default Ember.Component.extend({
 			else {
 				filtered_thrice = filtered_twice;
 				this.set('filt_centers', filtered_thrice);
+				this.set('loading', false);
+
 			}
 		}
 

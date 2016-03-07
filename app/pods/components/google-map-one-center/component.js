@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  markers: [],
 	insertMap: function() {
     var self = this;
       var center = this.get('center');
@@ -13,7 +14,6 @@ export default Ember.Component.extend({
 
       var map = new google.maps.Map(document.getElementById("map-canvas-one"),
     mapOptions);
-    
       var lt, lg, i, marker, latLng;
 
         var type = center.get('centerType');
@@ -66,11 +66,70 @@ export default Ember.Component.extend({
             }
           });
 
+        this.get('markers').pushObject(marker);
     
       google.maps.event.addListener(marker, 'mouseover', hoverHandler(marker));  
 
       google.maps.event.addListener(marker, 'mouseout', hoverOutHandler());
+      this.set('map', map);
     
+      if (this.get('isCurrentCenter')) {
+        map.addListener('mouseover', function() {showButtonToEdit() });
+      }
+
+      function showButtonToEdit() {
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new maximize(centerControlDiv, map);
+
+        centerControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.TOP_RIGHT].push(centerControlDiv);
+        google.maps.event.clearListeners(map, 'mouseover');
+        $("#map-canvas-one").mouseleave(function() { 
+          map.controls[google.maps.ControlPosition.TOP_RIGHT].clear();
+          map.addListener('mouseover', function() {showButtonToEdit() });
+          Ember.run(self, self.disableEditing);
+         });
+      }
+
+
+//maximization custom control
+      
+      function maximize(controlDiv, map) {
+      // Set CSS for the control border.
+      var controlUI = document.createElement('div');
+      controlUI.style.backgroundColor = '#fff';
+      controlUI.id = 'map-edit';
+      controlUI.style.border = '2px solid #fff';
+      controlUI.style.borderRadius = '3px';
+      controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+      controlUI.style.cursor = 'pointer';
+      controlUI.style.marginTop = '22px';
+      controlUI.style.marginLeft = '22px';      
+      controlUI.style.textAlign = 'center';
+      controlUI.title =  'Edit';
+      controlDiv.appendChild(controlUI);
+
+      // Set CSS for the control interior.
+      var controlText = document.createElement('div');
+      controlText.style.lineHeight = '38px';
+      controlText.style.paddingLeft = '0px';
+      controlText.style.paddingRight = '0px';
+      controlText.style.paddingTop = '0px';
+      controlText.style.height = '28px';
+      controlText.style.width = '28px';
+      controlText.innerHTML = '<i class="fa fa-edit"></i>';
+
+//      controlText.innerHTML = '<i class="fa fa-2x fa-arrows"></i>';
+      controlUI.appendChild(controlText);
+
+      controlUI.addEventListener('click', function() {
+
+        Ember.run(self, self.enableEditing);
+      });
+
+    }
+
+
 
 
       function hoverHandler(marker) {
@@ -87,5 +146,155 @@ export default Ember.Component.extend({
 
 
 
-	}.on('didInsertElement')
+	}.on('didInsertElement'),
+  enableEditing: function() {
+    var map = this.get('map');
+    var markers = this.get('markers');
+    var marker;
+    var center = this.get('center');
+    var _this = this;
+
+    if (markers.length > 0) {
+      marker = markers[0];
+      marker.set('draggable', true);
+    }
+
+
+
+      function maximize(controlDiv, map) {
+      // Set CSS for the control border.
+      var controlUI = document.createElement('div');
+      controlUI.style.backgroundColor = '#fff';
+      controlUI.id = 'map-edit';
+      controlUI.style.border = '2px solid #fff';
+      controlUI.style.borderRadius = '3px';
+      controlUI.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+      controlUI.style.cursor = 'pointer';
+      controlUI.style.marginTop = '22px';
+      controlUI.style.marginLeft = '22px';      
+      controlUI.style.textAlign = 'center';
+      controlUI.title =  'Edit';
+      controlDiv.appendChild(controlUI);
+
+      // Set CSS for the control interior.
+      var controlText = document.createElement('div');
+      controlText.style.lineHeight = '38px';
+      controlText.style.paddingLeft = '0px';
+      controlText.style.paddingRight = '0px';
+      controlText.style.paddingTop = '0px';
+      controlText.style.height = '28px';
+      controlText.style.width = '28px';
+      controlText.innerHTML = '<i class="fa fa-edit"></i>';
+
+//      controlText.innerHTML = '<i class="fa fa-2x fa-arrows"></i>';
+      controlUI.appendChild(controlText);
+
+      controlUI.addEventListener('click', function() {
+
+        Ember.run(_this, _this.disableEditingAndSave);
+      });
+
+    }
+
+        var centerControlDiv = document.createElement('div');
+        var centerControl = new maximize(centerControlDiv, map);
+
+        centerControlDiv.index = 1;
+        map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].push(centerControlDiv);
+
+
+
+    google.maps.event.addListener(map, 'click', function(event) {
+      if (markers.length > 0) {
+        marker = markers.pop();
+        google.maps.event.clearInstanceListeners(marker);
+        marker.setMap(null);
+      }
+
+
+        var type = center.get('centerType');
+
+
+        if (type === 1) {
+          marker = new google.maps.Marker({
+              position: event.latLng,
+              map: map,
+              draggable: true,
+              icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+          });
+        }
+        else if (type === 2) {
+            marker = new google.maps.Marker({
+                position: event.latLng,
+                map: map,
+                draggable: true,
+                icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+            });
+        }
+        else if (type === 3) {
+          marker = new google.maps.Marker({
+              position: event.latLng,
+              map: map,
+              draggable: true,
+              icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+          });
+        }
+
+        
+        marker.infowindow = new google.maps.InfoWindow({
+                    content: '<div id="content">'+
+                                '<h5>' + 'ASDF' + '</h5>'+
+                                '<div id="bodyContent">'+
+                                '<br>' +
+                                '</div>'+
+                                '</div>',
+                    options: {
+                      maxWidth: 200
+                    }
+                  });
+        google.maps.event.addListener(marker, 'mouseover', hoverHandler(marker));  
+
+        google.maps.event.addListener(marker, 'mouseout', hoverOutHandler());
+        _this.get('markers').pushObject(marker);
+        });
+
+
+      function hoverHandler(marker) {
+        return function() {
+          marker.infowindow.open(map, marker);
+        };
+      }
+
+      function hoverOutHandler() {
+        return function() {
+          this.infowindow.close();
+        };
+      }
+
+  },
+  disableEditing: function() {
+    var map = this.get('map');
+    var markers = this.get('markers');
+    if (markers.length) {
+      var marker = markers[0];
+      marker.set('draggable', false);
+    }
+    map.controls[google.maps.ControlPosition.BOTTOM_RIGHT].clear();
+    google.maps.event.clearListeners(map, 'click');
+  },
+    disableEditingAndSave: function() {
+      var markers = this.get('markers');
+      if (!markers.length) {
+        Ember.run(this, this.disableEditing);
+      } 
+      else {
+        var marker = markers[0];
+        var center = this.get('center');
+        var position = marker.getPosition();
+        center.set('latitude', position.lat());
+        center.set('longitude', position.lng());
+        center.save();
+        Ember.run(this, this.disableEditing);
+      }
+    }
 });

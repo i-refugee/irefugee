@@ -1,3 +1,5 @@
+@import 'loader.css';
+
 [data-ember-action] {
   cursor: pointer;
 }

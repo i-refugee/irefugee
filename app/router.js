@@ -8,6 +8,7 @@ const Router = Ember.Router.extend({
 Router.map(function() {
   this.route('center', {path:'/centers/:center_id'});
   this.route('login');
+  this.route('loading');
 });
 
 export default Router;
