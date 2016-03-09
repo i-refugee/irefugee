@@ -4,7 +4,10 @@
 {{/if}}
 {{/if}}
 <h4 class="text-center alert alert-info"> Άμεσες Ανάγκες </h4>
+
 {{#if isEditing}}
+<div class="row">
+<div class="col-xs-12">
    <div>
 	    {{#power-select-multiple
 	      options=keywords
@@ -18,8 +21,11 @@
   </div>
   <button {{action 'submit_keywords'}} class="btn btn-warning">Καταχώρηση</button>
   {{#if (gt keys.length 10)}}
-  	<div class="alert alert-danger">bla bla bla bla</div>
+  	<div class="alert alert-danger">Έχετε εισάγει πάνω από 10 λέξεις κλειδιά. Είστε σίγουρόι ότι είναι απαραίτητα όλα;</div>
   {{/if}}
+ </div>
+</div>
+
 {{else}}
 	<div class="center-keywords">
 		{{#each center.centerKeywords as |keyword|}}

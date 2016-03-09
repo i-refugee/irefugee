@@ -2,6 +2,27 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 	insertMap: function() {
+    var position = this.get('position');
+    if (position) {
+      this.get('map').panTo(position);
+      smoothZoom(this.get('map'),12,this.get('map').getZoom());
+      return;
+    }
+
+    // the smooth zoom function
+    function smoothZoom (map, max, cnt) {
+        if (cnt >= max) {
+                return;
+            }
+        else {
+            var z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+                google.maps.event.removeListener(z);
+                smoothZoom(map, max, cnt + 1);
+            });
+            setTimeout(function(){map.setZoom(cnt)}, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
+        }
+    }
+
     var self = this;
 	    var centers = this.get('centers').toArray();
       
@@ -75,7 +96,14 @@ export default Ember.Component.extend({
               icon: "assets/map-icons/firstaid.png"
           });
         }
-
+        else {
+          marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              animation: google.maps.Animation.DROP
+          });          
+        }
+        
         marker.centerId = centers[i].get('id');
         marker.centerSlug = centers[i].get('slug');
 
@@ -98,6 +126,8 @@ export default Ember.Component.extend({
           google.maps.event.addListener(marker, 'mouseover', hoverHandler(marker));  
 
           google.maps.event.addListener(marker, 'mouseout', hoverOutHandler());
+
+          this.set('map', map);
         }
 
       function clickHandler() {
@@ -143,5 +173,5 @@ export default Ember.Component.extend({
 
 
 
-	}.on('didInsertElement')
+	}.observes('position').on('didInsertElement')
 });

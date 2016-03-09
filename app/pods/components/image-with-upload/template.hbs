@@ -3,9 +3,9 @@
 	{{#if session.isAuthenticated}}
 	{{#if isCurrentCenter}}
 	<div id="caption">
-		{{#pl-uploader for="upload-image" max-file-size="2000000" extensions="jpg jpeg png bmp" onfileadd="uploadImage" as |queue dropzone|}}
+		{{#pl-uploader for="upload-image" max-file-size="1000000" extensions="jpg jpeg png bmp" onerror="uploadError" onfileadd="uploadImage" as |queue dropzone|}}
 			<a id="upload-image" style="cursor: pointer;">
-			{{fa-icon icon="camera"}} Αλλαγή Εικόνας.</a>
+			{{fa-icon icon="camera"}} Αλλαγή Εικόνας (max: 1MB).</a>
 		{{/pl-uploader}}
 	</div>
 	{{/if}}

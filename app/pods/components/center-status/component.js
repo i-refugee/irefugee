@@ -10,8 +10,9 @@ export default Ember.Component.extend({
 	}.observes('center.statuses').on('init'),
 	actions: {
 		submit_status: function(text) {
+			console.log(text)
 			this.sendAction('new_status', text);
-			$("#status-text").val('');
+			this.set('newstatus_text', null);
 		},
 		remove_status: function(status) {
 			var r = confirm("Να διαγραφεί το status;");

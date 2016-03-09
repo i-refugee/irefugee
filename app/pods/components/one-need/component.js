@@ -72,9 +72,18 @@ export default Ember.Component.extend({
 				$("#" + elementId + " .readmore").remove();
 
 				$("#" + elementId + " .panel-body").empty();
-				$("#" + elementId + " .panel-body").append("<textarea maxlength='3000' id='textarea'>" + a.get('description') + "</textarea>");	
+				$("#" + elementId + " .panel-body").append("<textarea maxlength='3000' id='textarea'>" + parseDescription(a.get('description')) + "</textarea>");	
 				this.set('isEditing', true);
 				$("#" + elementId + " textarea").jqte({sub: false, sup: false});	
+			}
+
+			function parseDescription(str) {
+				if (str) {
+					return str;
+				}
+				else {
+					return "";
+				}
 			}			
 		},
 		submit: function() {

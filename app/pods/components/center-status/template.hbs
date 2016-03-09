@@ -1,8 +1,10 @@
 <div class="status-box">
 {{#if session.isAuthenticated}}
 	{{#if isCurrentCenter}}
-		{{textarea class="status-textarea" value=newstatus_text id="status-text" placeholder="Ενημερωστε το status σας..."}}
-		<button class="btn btn-primary pull-right" {{action 'submit_status' newstatus_text}}>Δημοσίευση</button>
+		<form {{action 'submit_status' newstatus_text on='submit'}}>
+		{{textarea class="status-textarea" value=newstatus_text id="status-text" placeholder="Ενημερωστε το status σας..." required="required"}}
+		<button type="submit" class="btn btn-primary pull-right">Δημοσίευση</button>
+		</form>
 	{{/if}}
 {{/if}}
 

@@ -6,8 +6,10 @@
 				{{lazy-image class="center-list-image pull-left" url=(if center.imageUrl center.imageUrl "/assets/default.png")}}
 			</div>
 			<div class="col-xs-6" style="padding-left: 0; margin-left: 0;">
-				<p class="center-location-list"><i class="fa fa-map"></i> &nbsp; {{center.address}}</p>
-				<p class="center-ref-list">{{center.refugeesNumber}} Φιλοξενούμενοι</p>
+				<p class="center-location-list"><i title="Διεύθυνση" class="fa fa-map"></i> &nbsp; {{center.address}}</p>
+				{{#if (gt center 0)}}
+					<p class="center-ref-list">{{center.refugeesNumber}} Φιλοξενούμενοι</p>
+				{{/if}}
 				<p class="center-ref-list"><b>
 				 {{#if (eq center.centerType 1)}}
 				 Αυτοδιαχειριζόμενη δομή

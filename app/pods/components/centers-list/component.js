@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+	tmp: undefined,
 	ns: [],
 	keys: [],
 	showSearch: false,
@@ -18,35 +19,41 @@ export default Ember.Component.extend({
 	observeCheckboxMe: function() {
 		if (this.get('by_me')) {
 			this.set('by_address', !this.get('by_me'));
-			Ember.run(this, this.global_search);
+			Ember.run.once(this, this.global_search);
 		}
 		else {
 			if (this.get('placeToGeolocate')) {
-				Ember.run(this, this.global_search);
+				Ember.run.once(this, this.global_search);
 			}
 		}
 	}.observes('by_me'),
 	initializeSearchBox: function() {
-	var input = document.getElementById('place_search');
-	var searchBox = new google.maps.places.SearchBox(input, {});
-	searchBox.addListener('places_changed', function() {
-	  var places = searchBox.getPlaces();
+		var input = document.getElementById('place_search');
+		var _this = this;
+		var searchBox = new google.maps.places.SearchBox(input, {});
+		searchBox.addListener('places_changed', function() {
+		  var places = searchBox.getPlaces();
 
-	  if (places.length == 0) {
-	    return;
-	  }
+		  if (places.length == 0) {
+		    return;
+		  }
 
-	  else {
-	  	_this.set('placeToGeolocate', places[0]);
-	  }
-	})
+		  else {
+		      var latLng = new window.google.maps.LatLng(
+		            places[0].geometry.location.lat(),
+		            places[0].geometry.location.lng()
+		        );
+		  	_this.set('by_address', true);
+		  	_this.set('placeToGeolocate', places[0]);
+		  	_this.sendAction('moveMap', latLng);
+		  }
+		});
 	}.on('didInsertElement'),
 	initialize: function() {
 		this.set('filt_centers', this.get('centers'));
 		this.set('selected_type', 0);
 	}.on('init'),
 	global_search: function() {
-		console.log("running")
 		this.set('loading', true);
 		var centers = this.get('centers').toArray();
 	
@@ -107,6 +114,7 @@ export default Ember.Component.extend({
 						}
 						else {
 							alert('Παρακαλώ Εισάγετε Διεύθυνση');
+							_this.set('loading', false);
 						}
 					}
 					else if (_this.get('by_me')) { 
@@ -118,6 +126,11 @@ export default Ember.Component.extend({
 						function showPosition(pos) {
 							sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
 							_this.set('filt_centers', sorted_centers);
+							var latLng = new window.google.maps.LatLng(
+					            pos.coords.latitude,
+					            pos.coords.longitude
+					        );
+							_this.sendAction('moveMap', latLng);
 							_this.set('loading', false);
 						}
 					}
@@ -143,6 +156,7 @@ export default Ember.Component.extend({
 
 			if (_this.get('by_address')) {
 				var place = _this.get('placeToGeolocate');
+
 				if (place) {
 					sorted_centers = filtered_twice.sort(position(place.geometry.location.lat(), place.geometry.location.lng()));
 					this.set('filt_centers', sorted_centers);
@@ -150,6 +164,7 @@ export default Ember.Component.extend({
 				}
 				else {
 					alert('Παρακαλώ Εισάγετε Διεύθυνση');
+					_this.set('loading', false);
 				}
 			}
 			else if (_this.get('by_me')) { 
@@ -159,6 +174,12 @@ export default Ember.Component.extend({
 			        alert("Geolocation is not supported by this browser.");
 			    }
 				function showPosition(pos) {
+					var latLng = new window.google.maps.LatLng(
+			            pos.coords.latitude,
+			            pos.coords.longitude
+			        );
+					_this.sendAction('moveMap', latLng);
+
 					sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
 					_this.set('filt_centers', sorted_centers);
 					_this.set('loading', false);
@@ -301,7 +322,10 @@ export default Ember.Component.extend({
 			};
 
 
-	}.observes('keys.[]', 'placeToGeolocate'),
+	}.observes('keys.[]'),
+	observeAddres: function() {
+		Ember.run.once(this, this.global_search)
+	}.observes('placeToGeolocate'),
 /*	filter_by_keyword: function() {
 		var centers = this.get('filt_centers').toArray();
 
@@ -336,10 +360,11 @@ export default Ember.Component.extend({
 	}.observes('keys.[]'),*/
 	actions: {
 		filter_by_type: function() {
-			Ember.run(this, this.global_search);
+			Ember.run.once(this, this.global_search);
 		},
 		global_search: function() {
-			Ember.run(this, this.global_search, true);
+			this.set('by_address', true);
+			Ember.run.once(this, this.global_search);
 		},
 		filter_by_needs: function(need) {
 			var element = $("i#" + need.get('id'));
@@ -354,7 +379,7 @@ export default Ember.Component.extend({
 			
 			element.toggleClass("icon-background-grey icon-background-grey-more");
 
-			Ember.run(this, this.global_search, null);
+			Ember.run.once(this, this.global_search);
 /*
 			var centers = this.get('filt_centers').toArray();
 

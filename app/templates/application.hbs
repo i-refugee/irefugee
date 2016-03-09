@@ -11,8 +11,8 @@
         <li><a href={{href-to 'about'}}>Σκοπός</a></li>
         <li><a href={{href-to 'how-to-use'}}>Οδηγίες Χρήσης</a></li>
         {{#if session.isAuthenticated}}
-          <li {{action 'invalidate'}}><a>Αποσύνδεση</a></li>
           <li><a href={{href-to 'center' session.data.currentCenterSlug}}>Η ομάδα μου</a></li>
+          <li {{action 'invalidate'}}><a>Αποσύνδεση</a></li>
         {{else}}  
           <li><a href={{href-to 'login'}}>Σύνδεση</a></li>
         {{/if }}
@@ -38,4 +38,5 @@
       </form> --}}
     </div> 
 </div>
+{{ember-notify messageStyle='bootstrap'}}
 {{outlet}}

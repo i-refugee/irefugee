@@ -11,7 +11,6 @@ export default {
       setCurrentUser: function() {
         if (this.get('isAuthenticated')) {
           this.container.lookup('service:store').queryRecord('center', {me: 'true'}).then((center) => {
-            console.log(center)
             this.set('data.currentCenterId', center.get('id'));
             this.set('data.currentCenterSlug', center.get('slug'));
           });

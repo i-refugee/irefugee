@@ -9,7 +9,10 @@ export default Ember.Controller.extend({
       this.get('session').authenticate('authenticator:refugee', identification, password).then(function(){
         _this.transitionToRoute('/')
       }).catch((reason) => {
-        this.set('errorMessage', reason.error || reason);
+        this.set('errorMessage', 'Λάθος Email ή Κωδικός');
+        setTimeout(function(){
+          _this.set('errorMessage', null);          
+        }, 5000);
       });
     }
   }

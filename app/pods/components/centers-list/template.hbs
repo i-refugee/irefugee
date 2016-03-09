@@ -49,18 +49,17 @@
       {{/if}}
  	{{/each}}
   </div>
-
   <div class="row" style="margin-top: 10px;">
     <div class="col-xs-12">
-      <form class="form" role="form">
+      <div>
         <div class="checkbox">
           <label>{{input type="checkbox" checked=by_address}} Ταξινόμηση βάσει διεύθυνσης </label>
-          &nbsp; {{input id="place_search" action='global_search' placeholder="Οδός Ονείρων 14, Αθήνα"}}        
+          &nbsp; {{input id="place_search" placeholder="Οδός Ονείρων 14, Αθήνα"}}         
         </div>
         <div class="checkbox">
           <label>{{input type="checkbox" checked=by_me}} Ταξινόμηση με βάση την τρέχουσα τοποθεσία μου </label>
         </div>
-      </form>
+      </div>
     </div>
   </div>
 
