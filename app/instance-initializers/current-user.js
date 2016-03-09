@@ -13,6 +13,7 @@ export default {
           this.container.lookup('service:store').queryRecord('center', {me: 'true'}).then((center) => {
             console.log(center)
             this.set('data.currentCenterId', center.get('id'));
+            this.set('data.currentCenterSlug', center.get('slug'));
           });
 /*          this.container.lookup('service:store').findRecord('center', 2).then((center) => {
             this.set('currentCenter', center);

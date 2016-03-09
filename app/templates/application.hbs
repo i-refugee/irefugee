@@ -1,5 +1,5 @@
-<div class="navbar navbar-custom navbar-fixed-top">
-  <div class="navbar-header">{{#link-to 'index' class="navbar-brand"}}asdf{{/link-to}}
+<div id="navigation" class="navbar navbar-custom navbar-fixed-top">
+  <div class="navbar-header"><a class="navbar-brand" href={{href-to 'index'}}><img class="logo" src="/assets/logo.png"></a>
       <a class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -7,16 +7,17 @@
       </a>
     </div>
     <div class="navbar-collapse collapse">
-{{!--         {{tour-shepherd}}
- --}}
-      <ul class="nav navbar-nav">
+      <ul class="nav navbar-nav navbar-right" style="margin-right: 20px;">
+        <li><a href={{href-to 'about'}}>Σκοπός</a></li>
+        <li><a href={{href-to 'how-to-use'}}>Οδηγίες Χρήσης</a></li>
         {{#if session.isAuthenticated}}
           <li {{action 'invalidate'}}><a>Αποσύνδεση</a></li>
-          <li>{{#link-to 'center' session.data.currentCenterId}}Η ομάδα μου{{/link-to}}</li>
+          <li><a href={{href-to 'center' session.data.currentCenterSlug}}>Η ομάδα μου</a></li>
         {{else}}  
-          <li>{{#link-to 'login'}}Σύνδεση{{/link-to}}</li>
+          <li><a href={{href-to 'login'}}>Σύνδεση</a></li>
         {{/if }}
       </ul>
+
 {{!--       <form class="navbar-form">
         <div class="form-group" style="display:inline;">
           <div class="input-group">

@@ -1,0 +1,33 @@
+<div class="status-box">
+{{#if session.isAuthenticated}}
+	{{#if isCurrentCenter}}
+		{{textarea class="status-textarea" value=newstatus_text id="status-text" placeholder="Ενημερωστε το status σας..."}}
+		<button class="btn btn-primary pull-right" {{action 'submit_status' newstatus_text}}>Δημοσίευση</button>
+	{{/if}}
+{{/if}}
+
+	<h4 class="text-center alert alert-info"> Τελευταίες Δημοσιεύσεις </h4>
+	<ul class="list-group">
+		{{#each statuses as |status|}}
+			<li class="list-group-item"> 
+			<div class="row">
+				<div class="col-xs-8"> {{status.context}} </div>
+				<div class="col-xs-4">
+				<span style="color: #168ccc"> {{moment-format status.createdAt 'D MMM, HH:mm'}} </span>  
+{{#if session.isAuthenticated}}
+	{{#if isCurrentCenter}}		
+			<i {{action 'remove_status' status}} title="Διαγραφή" class="fa fa-remove pull-right"></i>  
+{{/if}}
+{{/if}}
+
+				</div>
+
+			</div>
+				</li>
+		{{/each}}
+	</ul>
+
+</div>
+
+
+{{yield}}

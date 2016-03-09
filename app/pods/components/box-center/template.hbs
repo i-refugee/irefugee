@@ -1,19 +1,43 @@
 <div class="box-center">      
 	<div class="panel panel-default">
-		<div class="panel-heading">{{#link-to 'center' center}}{{center.name}}{{/link-to}}</div>
-	</div>
-	<div class="col-xs-6">
-		{{lazy-image class="center-list-image pull-left" url=(if center.imageUrl center.imageUrl "/assets/kollias.jpg")}}
-	</div>
-	<div class="col-xs-6" style="padding-left: 0; margin-left: 0;">
-		<p class="center-location-list">{{center.address}}</p>
-		<p class="center-ref-list">{{center.refugeesNumber}} Πρόσφυγες</p>
-		<p class="center-ref-list"><b>Τύπος Κέντρου:</b> {{center.centerType}}</p>
+		<div class="panel-heading"><a title={{center.name}} style="text-overflow:ellipsis;" href="{{href-to 'center' center}}"> {{center.name}}</a></div>
+		<div class="panel panel-body">
+			<div class="col-xs-6">
+				{{lazy-image class="center-list-image pull-left" url=(if center.imageUrl center.imageUrl "/assets/kollias.jpg")}}
+			</div>
+			<div class="col-xs-6" style="padding-left: 0; margin-left: 0;">
+				<p class="center-location-list"><i class="fa fa-map"></i> &nbsp; {{center.address}}</p>
+				<p class="center-ref-list">{{center.refugeesNumber}} Φιλοξενούμενοι</p>
+				<p class="center-ref-list"><b>
+				 {{#if (eq center.centerType 1)}}
+				 Αυτοδιαχειριζόμενη δομή
+				 {{/if}}
+				 {{#if (eq center.centerType 2)}}
+				 Μαγειρείο
+				 {{/if}}
+				 {{#if (eq center.centerType 3)}}
+				 Δομή πρώτης υποδοχής
+				 {{/if}}
+				 {{#if (eq center.centerType 4)}}
+				 Ανοιχτή δομή φιλοξενίας
+				 {{/if}}
+				 {{#if (eq center.centerType 5)}}
+				 Ναυαγωσωστική ομάδα				 
+				{{/if}}
+				</b>
+				 </p>
+			</div>
 
-		{{#each center.keywords as |key|}}
-			{{key.keyword}}
-		{{/each}}
 
+
+{{!-- 			<div class="keywords">
+				{{#if center.centerKeywords.isFulfilled}}
+					{{#each center.centerKeywords as |key|}}
+						{{key.keyword.keyword}}
+					{{/each}}
+				{{/if}}
+			</div> --}}
+		</div>
 	</div>
 </div>
 

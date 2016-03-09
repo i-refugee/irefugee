@@ -7,10 +7,14 @@ export default Ember.Component.extend({
 		_this.get('store').findAll('newsfeed').then(function(response){
 			_this.set('news', response)
 		});
-		setInterval(function(){
+		var interval = setInterval(function(){
 			_this.get('store').findAll('newsfeed').then(function(response){
 				_this.set('news', response)
 			});
 		}, 60000);
-	}.on('init')
+		this.set('interval', interval)
+	}.on('init'),
+	stopInterval: function() {
+		clearInterval(this.get('interval'));
+	}.on('willDestroyElement')
 });

@@ -8,7 +8,7 @@ export default Ember.Component.extend({
       var mapCenter = new google.maps.LatLng(38.1458392, 24.4813);
 
       var mapOptions = {
-          zoom: 8,
+          zoom: 7,
           center: mapCenter
       };
 
@@ -21,8 +21,7 @@ export default Ember.Component.extend({
         lt = centers[i].get('latitude');
         lg = centers[i].get('longitude');
 
-        if ((typeof lt)==='undefined' || (typeof lg)==='undefined') {
-          console.error("Undefined latitude and longitude.");
+        if (!lt || !lg) {
           continue;
         }
 
@@ -41,7 +40,7 @@ export default Ember.Component.extend({
               position: latLng,
               map: map,
               animation: google.maps.Animation.DROP,
-              icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+              icon: "assets/map-icons/revolt.png"
           });
         }
         else if (type === 2) {
@@ -49,7 +48,7 @@ export default Ember.Component.extend({
               position: latLng,
               map: map,
               animation: google.maps.Animation.DROP,
-              icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+              icon: "assets/map-icons/restaurant.png"
           });
         }
         else if (type === 3) {
@@ -57,19 +56,36 @@ export default Ember.Component.extend({
               position: latLng,
               map: map,
               animation: google.maps.Animation.DROP,
-              icon: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+              icon: "assets/map-icons/camping-2.png"
+          });
+        }
+        else if (type === 4) {
+          marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              animation: google.maps.Animation.DROP,
+              icon: "assets/map-icons/cabin-2.png"
+          });
+        }
+        else if (type === 5) {
+          marker = new google.maps.Marker({
+              position: latLng,
+              map: map,
+              animation: google.maps.Animation.DROP,
+              icon: "assets/map-icons/firstaid.png"
           });
         }
 
         marker.centerId = centers[i].get('id');
+        marker.centerSlug = centers[i].get('slug');
 
         marker.infowindow = new google.maps.InfoWindow({
             content: '<div id="content">'+
                         '<h5>' + centers[i].get('name') + '</h5>'+
                         '<div id="bodyContent">'+
-                        '<b>' + 'Διεύθυνση:' + ' </b>' + centers[i].get('city') +
+                        '<b>' + 'Διεύθυνση:' + ' </b>' + centers[i].get('address') +
                         '<br>' +
-                        '<b>' + 'Πρόσφυγες:' + ' </b>' + centers[i].get('refugees') +
+                          '<b>'  + getTextCenterType(centers[i].get('centerType')) + '</b>' +
                         '</div>'+
                         '</div>',
             options: {
@@ -86,10 +102,33 @@ export default Ember.Component.extend({
 
       function clickHandler() {
         return function() {
-          self.sendAction('transitToCenter', this.centerId);
+          self.sendAction('transitToCenter', this.centerSlug);
         };
       }
+      function getTextCenterType(num) {
+        switch (num) {
+          case 1:
+            return 'Αυτοδιαχειριζόμενη δομή';
+            break;
+          case 2:
+            return 'Μαγειρείο';
+            break;
+          case 3:
+            return 'Δομή πρώτης υποδοχής';
+            break;
+          case 4:
+            return 'Ανοιχτή δομή φιλοξενίας';
+            break;
+          case 5:
+            return 'Ναυαγωσωστική ομάδα';
+            break;
+          default:
+          return '';
+            break;
 
+        }
+
+      }
       function hoverHandler(marker) {
         return function() {
           marker.infowindow.open(map, marker);

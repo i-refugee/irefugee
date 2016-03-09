@@ -9,6 +9,7 @@ export default Ember.Component.extend({
 	by_address: false,
 	by_me: false,
 	loading: false,
+	selected_type: null,
 	observeCheckboxAddress: function() {
 		if (this.get('by_address')) {
 			this.set('by_me', !this.get('by_address'));
@@ -25,24 +26,60 @@ export default Ember.Component.extend({
 			}
 		}
 	}.observes('by_me'),
+	initializeSearchBox: function() {
+	var input = document.getElementById('place_search');
+	var searchBox = new google.maps.places.SearchBox(input, {});
+	searchBox.addListener('places_changed', function() {
+	  var places = searchBox.getPlaces();
+
+	  if (places.length == 0) {
+	    return;
+	  }
+
+	  else {
+	  	_this.set('placeToGeolocate', places[0]);
+	  }
+	})
+	}.on('didInsertElement'),
 	initialize: function() {
 		this.set('filt_centers', this.get('centers'));
+		this.set('selected_type', 0);
 	}.on('init'),
 	global_search: function() {
+		console.log("running")
 		this.set('loading', true);
 		var centers = this.get('centers').toArray();
 	
 		var _this = this;
+
+		var selected_type = this.get('selected_type');
+
+		var type_centers;
+
+		if (selected_type!=0) {
+			type_centers = centers.filter(function(center){
+				if (center.get('centerType') === selected_type) {
+					return true;
+				}
+				else {
+					return false;
+				}
+			})
+		}
+		else {
+			type_centers = centers;
+		}
+
 
 		var keys_selected = this.get('keys');
 
 		var filtered_once;
 
 		if (keys_selected.length) {
-			filtered_once = filter_by_keyword(centers, keys_selected);
+			filtered_once = filter_by_keyword(type_centers, keys_selected);
 		}
 		else {
-			filtered_once = centers;
+			filtered_once = type_centers;
 		}
 
 		var needs_selected = this.get('ns');
@@ -298,19 +335,24 @@ export default Ember.Component.extend({
 		this.set('filt_centers', filtered_by_key_centers);			
 	}.observes('keys.[]'),*/
 	actions: {
+		filter_by_type: function() {
+			Ember.run(this, this.global_search);
+		},
 		global_search: function() {
 			Ember.run(this, this.global_search, true);
 		},
 		filter_by_needs: function(need) {
-			var element = $("#" + need.get('id'));
-			if (element.hasClass("black")) {
+			var element = $("i#" + need.get('id'));
+			if (element.hasClass("icon-background-grey")) {
 				this.get('ns').addObject(need);
+				element.parent().next().addClass('black');
 			}
 			else {
-				this.get('ns').removeObject(need);				
+				this.get('ns').removeObject(need);		
+				element.parent().next().removeClass('black');
 			}
 			
-			element.toggleClass("black orange");
+			element.toggleClass("icon-background-grey icon-background-grey-more");
 
 			Ember.run(this, this.global_search, null);
 /*
@@ -484,10 +526,15 @@ export default Ember.Component.extend({
 			this.set('ns', []);
 			this.set('by_address', false);
 			this.set('by_me', false);
+			this.set('selected_type', 0);
 			$('#place_search').val('');
-			$('.needs span').removeClass('black');
-			$('.needs span').removeClass('orange');
-			$('.needs span').addClass('black');
+
+			var i;
+			for (i=1; i<6;i++) {
+				$("i#"+i).removeClass('icon-background-grey-more');
+				$("i#"+i).addClass('icon-background-grey');
+				$("i#"+i).parent().next().removeClass('black');
+			}
 		},
 		toggleSearch: function() {
 			var _this = this;
@@ -497,21 +544,7 @@ export default Ember.Component.extend({
 			else {
 				this.toggleProperty('showSearch');
 				this.toggleProperty('searchOpenFirstTime');
-				setTimeout(function(){
-					var input = document.getElementById('place_search');
-					var searchBox = new google.maps.places.SearchBox(input, {});
-					searchBox.addListener('places_changed', function() {
-					  var places = searchBox.getPlaces();
 
-					  if (places.length == 0) {
-					    return;
-					  }
-
-					  else {
-					  	_this.set('placeToGeolocate', places[0]);
-					  }
-					})
-				}, 300);
 			}
 		}
 	}

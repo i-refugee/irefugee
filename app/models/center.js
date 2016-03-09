@@ -14,6 +14,7 @@ export default DS.Model.extend({
   createdAt: DS.attr('date'),
   updatedAt: DS.attr('date'),
   imageUrl: DS.attr('string'),
+  slug: DS.attr('string'),
   centerNeeds: DS.hasMany('center-need', {async: true}),
   importantNeeds: DS.hasMany('need', {async: true, inverse: null}),
   statuses: DS.hasMany('status', {async: true}),

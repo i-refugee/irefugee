@@ -6,9 +6,11 @@ const Router = Ember.Router.extend({
 });
 
 Router.map(function() {
-  this.route('center', {path:'/centers/:center_id'});
+  this.route('center', {path:'/centers/:slug'});
   this.route('login');
   this.route('loading');
+  this.route('about');
+  this.route('how-to-use');
 });
 
 export default Router;

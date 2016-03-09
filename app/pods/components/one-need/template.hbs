@@ -1,12 +1,14 @@
 <div class="col-md-4 center-need">
-	<div class="panel {{if (eq centerNeed.importance 0) "panel-default"}} {{if (eq centerNeed.importance 1) "panel-warning"}} {{if (eq centerNeed.importance 2) "panel-danger"}}">
-	  <div class="panel-heading">
-	  	{{centerNeed.need.name}}
+	<div class="panel {{if (not centerNeed.importance) "panel-default"}} {{if (eq centerNeed.importance 1) "panel-default"}} {{if (eq centerNeed.importance 2) "panel-warning"}} {{if (eq centerNeed.importance 3) "panel-danger"}}">
+	  <div class="panel-heading" title={{needString}}>
+	  	<span class="need-name">{{centerNeed.need.name}}</span>
 	  	(Ανανεώθηκε: {{moment-format centerNeed.updatedAt 'D/M'}})
+	  	{{#if session.isAuthenticated}}
 	  	{{#if isCurrentCenter}}
 	  		<button class='fa fa-edit pull-right active' {{action 'edit'}} ></button>
 	  	{{/if}}
-	  	{{#if (eq centerNeed.importance 2)}}
+	  	{{/if}}
+	  	{{#if (eq centerNeed.importance 3)}}
 	  		<i class='fa fa-warning pull-right'></i>
 		{{/if}}	  		
 	  </div>
@@ -15,11 +17,11 @@
  		</div>
  		{{#if isEditing}}
 		   	<div class="pull-left">
-		   		Σημασία:
+		   		Ανάγκη:
 		   		{{#x-select value=centerNeed.importance}}
-				  {{#x-option value=0}}Μικρή{{/x-option}}
-				  {{#x-option value=1}}Μέτρια{{/x-option}}
-				  {{#x-option value=2}}Μεγάλη{{/x-option}}
+				  {{#x-option value=1}}Μικρή{{/x-option}}
+				  {{#x-option value=2}}Μέση{{/x-option}}
+				  {{#x-option value=3}}Μεγάλη{{/x-option}}
 				{{/x-select}}
 		   	</div>
  			<button class="btn btn-success pull-right" {{action 'submit'}}>Καταχώρηση</button>

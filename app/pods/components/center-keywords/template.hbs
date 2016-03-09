@@ -1,0 +1,30 @@
+{{#if session.isAuthenticated}}
+{{#if isCurrentCenter}}
+	<button class="pull-right"><i {{action 'edit_keywords'}} class="fa fa-edit"></i></button>
+{{/if}}
+{{/if}}
+<h4 class="text-center alert alert-info"> Άμεσες Ανάγκες </h4>
+{{#if isEditing}}
+   <div>
+	    {{#power-select-multiple
+	      options=keywords
+	      selected=keys
+	      searchField="keyword"
+	      onchange=(action (mut keys))
+	      as |keyword|
+	    }}
+	      {{keyword.keyword}}
+	    {{/power-select-multiple}}
+  </div>
+  <button {{action 'submit_keywords'}} class="btn btn-warning">Καταχώρηση</button>
+  {{#if (gt keys.length 10)}}
+  	<div class="alert alert-danger">bla bla bla bla</div>
+  {{/if}}
+{{else}}
+	<div class="center-keywords">
+		{{#each center.centerKeywords as |keyword|}}
+			<span class="alert-info" style="padding: 4px; border-radius: 10%;">{{keyword.keyword.keyword}}</span>
+		{{/each}}
+	</div>
+{{/if}}
+{{yield}}

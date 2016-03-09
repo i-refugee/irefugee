@@ -34,7 +34,7 @@ export default Ember.Component.extend({
 
 			  var center = this.get('center');
 
-		      file.upload("http://localhost:3000/centers/" + this.get('session.data.currentCenterId') + "/upload",  { headers: { "Authorization": this.get('session.data.authenticated.access_token')}}).then(function (response) {
+		      file.upload("http://server.irefugee.gr/centers/" + this.get('session.data.currentCenterId') + "/upload",  { headers: { "Authorization": this.get('session.data.authenticated.access_token')}}).then(function (response) {
 		      	console.log(response)
 		      	center.set('imageUrl', response.body.data.attributes.image_url);
 		      }, function () {

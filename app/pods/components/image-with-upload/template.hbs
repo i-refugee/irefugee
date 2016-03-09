@@ -1,11 +1,15 @@
 <div id="img-container">
 	<img src={{if center.imageUrl center.imageUrl "/assets/kollias.jpg"}} id="profile-image" alt="">
+	{{#if session.isAuthenticated}}
+	{{#if isCurrentCenter}}
 	<div id="caption">
 		{{#pl-uploader for="upload-image" max-file-size="2000000" extensions="jpg jpeg png bmp" onfileadd="uploadImage" as |queue dropzone|}}
 			<a id="upload-image" style="cursor: pointer;">
 			{{fa-icon icon="camera"}} Αλλαγή Εικόνας.</a>
 		{{/pl-uploader}}
 	</div>
+	{{/if}}
+	{{/if}}
 </div>
 
 

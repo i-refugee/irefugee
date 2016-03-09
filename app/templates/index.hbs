@@ -1,11 +1,11 @@
-{{news-feed}}
-{{google-map centers=model.centers transitToCenter="transitToCenter"}}
 <div class="container-fluid" id="main">
   <div class="row">
-  	<div class="col-xs-6" id="left">
+  	<div class="col-md-6" id="left">
       {{centers-list centers=model.centers keywords=model.keywords needs=model.needs}}
     </div>
-    <div class="col-xs-4">	</div>    
+    <div class="col-md-6"> </div>
+		{{news-feed}}
+    	{{google-map centers=model.centers transitToCenter="transitToCenter"}}
   </div>
 </div>
 <!-- end template -->
