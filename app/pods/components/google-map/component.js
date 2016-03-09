@@ -15,11 +15,11 @@ export default Ember.Component.extend({
                 return;
             }
         else {
-            var z = google.maps.event.addListener(map, 'zoom_changed', function(event){
+            var z = google.maps.event.addListener(map, 'zoom_changed', function(){
                 google.maps.event.removeListener(z);
                 smoothZoom(map, max, cnt + 1);
             });
-            setTimeout(function(){map.setZoom(cnt)}, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
+            setTimeout(function(){map.setZoom(cnt);}, 80); // 80ms is what I found to work well on my system -- it might not work well on all systems
         }
     }
 
@@ -111,7 +111,7 @@ export default Ember.Component.extend({
             content: '<div id="content">'+
                         '<h5>' + centers[i].get('name') + '</h5>'+
                         '<div id="bodyContent">'+
-                        '<b>' + 'Διεύθυνση:' + ' </b>' + centers[i].get('address') +
+                        '<b>' + 'Διεύθυνση:' + ' </b>' + parseAddress(centers[i].get('address')) +
                         '<br>' +
                           '<b>'  + getTextCenterType(centers[i].get('centerType')) + '</b>' +
                         '</div>'+
@@ -120,6 +120,8 @@ export default Ember.Component.extend({
               maxWidth: 200
             }
           });
+
+
 
           google.maps.event.addListener(marker, 'click', clickHandler());
         
@@ -130,6 +132,18 @@ export default Ember.Component.extend({
           this.set('map', map);
         }
 
+
+
+      function parseAddress (addr) {
+        if (addr) {
+          return addr;
+        }
+        else {
+          return "-";
+        }
+      }
+  
+
       function clickHandler() {
         return function() {
           self.sendAction('transitToCenter', this.centerSlug);
@@ -139,22 +153,16 @@ export default Ember.Component.extend({
         switch (num) {
           case 1:
             return 'Αυτοδιαχειριζόμενη δομή';
-            break;
           case 2:
             return 'Μαγειρείο';
-            break;
           case 3:
             return 'Δομή πρώτης υποδοχής';
-            break;
           case 4:
             return 'Ανοιχτή δομή φιλοξενίας';
-            break;
           case 5:
             return 'Ναυαγωσωστική ομάδα';
-            break;
           default:
           return '';
-            break;
 
         }
 

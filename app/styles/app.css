@@ -4,6 +4,7 @@
   cursor: pointer;
 }
 
+
 /*.select {
 	width: 28% !important;
 	height: 30px !important;
@@ -172,6 +173,13 @@ body {
 	    top:51px;
 	    bottom:0;
 	}
+
+
+	.box-content {
+		padding-left: 0; 
+		margin-left: 0;
+	}
+
 	#map-canvas {
 		width:50%;
 	    height:60%;
@@ -279,7 +287,9 @@ body {
 		border-radius: 0;
 	}
 
-
+	.news-feed {
+		margin-top: 20%;
+	}
 
 }
 

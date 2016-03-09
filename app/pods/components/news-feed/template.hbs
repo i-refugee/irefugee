@@ -3,7 +3,14 @@
 	<ul class="list-group ">
 		{{#if (not loading)}}
 			{{#each news as |new|}}
-				<li class="list-group-item"> <a style="color: black;" href="{{href-to 'center' new.center}}"> {{new.content}} </a>  
+				<li class="list-group-item">
+					{{#if new.center}} 
+						<a style="color: black;" href="{{href-to 'center' new.center}}"> 
+							{{new.content}} 
+						</a>
+					{{else}}
+						<span style="color: black;">{{new.content}}</span>
+					{{/if}}  
 				<span style="color: #168ccc" class="pull-right"> {{moment-format new.createdAt 'D MMM, h:mm:ss a'}} </span> </li>
 			{{/each}}
 		{{else}}

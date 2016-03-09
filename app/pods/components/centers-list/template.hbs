@@ -1,53 +1,55 @@
 <div class="text-center alert-success">Δες πού και πώς μπορείς να συνδράμεις</div>
   <div class="needs">
-    <div class="col-xs-2"><h4 title="Επιλέξτε βάσει ποιων βασικών αναγκών θέλετε να κάνετε αναζήτηση" class="text-center">Βασικές Ανάγκες</h4></div>
-  	{{#each needs as |need|}}
-      {{#if (eq need.id "1")}}
-        <div class="col-xs-2">
-          <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
-              {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
-              {{fa-icon title=need.name icon="fa fa-cutlery" class="fa-stack-1x black"}}
-          </span>
-          <div {{action 'filter_by_needs' need}}><h5>Τρόφιμα</h5></div>
-        </div>
-      {{/if}}
-      {{#if (eq need.id "2")}}
-        <div class="col-xs-2">
-          <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
-              {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
-              {{fa-icon title=need.name icon="fa fa-suitcase" class="fa-stack-1x black"}}
-          </span>
-          <div {{action 'filter_by_needs' need}}><h5>Ρουχισμός</h5></div>
-        </div>
-      {{/if}}
-      {{#if (eq need.id "3")}}
-        <div class="col-xs-2">
-          <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
-              {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
-              {{fa-icon title=need.name icon="fa fa-medkit" class="fa-stack-1x black"}}
-          </span>
-          <div {{action 'filter_by_needs' need}}><h5>Φάρμακα</h5></div>
-        </div>
-      {{/if}}
-      {{#if (eq need.id "4")}}
-        <div class="col-xs-2">
-          <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
-              {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
-              {{fa-icon title=need.name icon="fa fa-users" class="fa-stack-1x black"}}
-          </span>
-          <div {{action 'filter_by_needs' need}}><h5>Ανθρώπινο δυναμικό</h5></div>
-        </div>
-      {{/if}}
-      {{#if (eq need.id "5")}}
-        <div class="col-xs-2">
-          <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
-              {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
-              {{fa-icon title=need.name icon="fa fa-cart-plus" class="fa-stack-1x black"}}
-          </span>
-          <div {{action 'filter_by_needs' need}}><h5>Διάφορα</h5></div>
-        </div>
-      {{/if}}
- 	{{/each}}
+    <div class="col-md-2"><h4 title="Επιλέξτε βάσει ποιων βασικών αναγκών θέλετε να κάνετε αναζήτηση" class="text-center">Βασικές Ανάγκες</h4></div>
+    <div class="row">
+    	{{#each needs as |need|}}
+        {{#if (eq need.id "1")}}
+          <div class="col-md-2 col-xs-1 col-xs-offset-0 col-md-offset-0">
+            <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
+                {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
+                {{fa-icon title=need.name icon="fa fa-cutlery" class="fa-stack-1x black"}}
+            </span>
+            <div {{action 'filter_by_needs' need}}><h5>Τρόφιμα</h5></div>
+          </div>
+        {{/if}}
+        {{#if (eq need.id "2")}}
+          <div class="col-md-2 col-xs-1 col-xs-offset-1 col-md-offset-0">
+            <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
+                {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
+                {{fa-icon title=need.name icon="fa fa-suitcase" class="fa-stack-1x black"}}
+            </span>
+            <div {{action 'filter_by_needs' need}}><h5>Ρουχισμός</h5></div>
+          </div>
+        {{/if}}
+        {{#if (eq need.id "3")}}
+          <div class="col-md-2 col-xs-1 col-xs-offset-1 col-md-offset-0">
+            <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
+                {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
+                {{fa-icon title=need.name icon="fa fa-medkit" class="fa-stack-1x black"}}
+            </span>
+            <div {{action 'filter_by_needs' need}}><h5>Φάρμακα</h5></div>
+          </div>
+        {{/if}}
+        {{#if (eq need.id "4")}}
+          <div class="col-md-2 col-xs-1 col-xs-offset-1 col-md-offset-0">
+            <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
+                {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
+                {{fa-icon title=need.name icon="fa fa-users" class="fa-stack-1x black"}}
+            </span>
+            <div {{action 'filter_by_needs' need}}><h5>Ανθρώπινο δυναμικό</h5></div>
+          </div>
+        {{/if}}
+        {{#if (eq need.id "5")}}
+          <div class="col-md-2 col-xs-1 col-xs-offset-1 col-md-offset-0">
+            <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
+                {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
+                {{fa-icon title=need.name icon="fa fa-cart-plus" class="fa-stack-1x black"}}
+            </span>
+            <div {{action 'filter_by_needs' need}}><h5>Διάφορα</h5></div>
+          </div>
+        {{/if}}
+   	{{/each}}
+  </div>
   </div>
   <div class="row" style="margin-top: 10px;">
     <div class="col-xs-12">
