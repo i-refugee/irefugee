@@ -24,6 +24,8 @@ module.exports = function(defaults) {
   app.import('vendor/jquery-te-1.4.0.min.js');
   app.import('vendor/bootstrap.min.js');
   app.import('vendor/dropzone.js');
+  app.import('vendor/bootstrap-tour.min.css');
+  app.import('vendor/bootstrap-tour.min.js');
 
   return app.toTree();
 };

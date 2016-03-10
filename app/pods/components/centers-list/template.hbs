@@ -1,7 +1,7 @@
 <div class="text-center alert-success">Δες πού και πώς μπορείς να συνδράμεις</div>
   <div class="needs">
-    <div class="col-md-2"><h4 title="Επιλέξτε βάσει ποιων βασικών αναγκών θέλετε να κάνετε αναζήτηση" class="text-center">Βασικές Ανάγκες</h4></div>
     <div class="row">
+      <div class="col-md-2"><h4 title="Επιλέξτε βάσει ποιων βασικών αναγκών θέλετε να κάνετε αναζήτηση" class="text-center">Βασικές Ανάγκες</h4></div>
     	{{#each needs as |need|}}
         {{#if (eq need.id "1")}}
           <div class="col-md-2 col-xs-1 col-xs-offset-0 col-md-offset-0">
@@ -67,14 +67,14 @@
 
 {{!-- <button style="margin-top: 10px; border-radius: 0;" {{action 'toggleSearch'}} class="btn btn-primary col-xs-12"> Εξειδικευμένη Αναζήτηση</button> --}}
 <div class="row">
-  <a style="margin-top: 10px; margin-right: 82px;" class="pull-right" {{action 'toggleSearch'}}> Εξειδικευμένη Αναζήτηση </a>
+  <a class="advanced-search-prompt pull-right" {{action 'toggleSearch'}}> Εξειδικευμένη Αναζήτηση </a>
 </div>
 
 
 {{#if showSearch class="search"}}
 <div class="row">
-  <div class="col-xs-3"><b> Αναζήτηση βάσει κωδικής λέξης: </b></div>
-  <div class="col-xs-4">
+  <div class="col-md-3 col-xs-6"><b> Αναζήτηση βάσει κωδικής λέξης: </b></div>
+  <div class="col-md-4 col-xs-6">
       {{#power-select-multiple style="border-radius: 0;"
         options=keywords
         selected=keys
@@ -87,8 +87,8 @@
   </div>
 </div>  
 <div class="row" style="margin-top: 5px;">
-  <div class="col-xs-3"> <b>Αναζήτηση βάσει τύπου ομάδας: </b></div>
-  <div class="col-xs-4 select-container">
+  <div class="col-md-3 col-xs-6"> <b>Αναζήτηση βάσει τύπου ομάδας: </b></div>
+  <div class="col-md-4 col-xs-6 select-container">
     {{#x-select class="form-control select" value=selected_type action='filter_by_type'}}
       {{#x-option value=0}}Κανένας{{/x-option}}
       {{#x-option value=1}}Αυτοδιαχειριζόμενη δομή{{/x-option}}

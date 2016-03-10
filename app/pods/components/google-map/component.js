@@ -1,11 +1,47 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  markers: [],
+  filterMap: function() {
+    var _this = this;
+    if (!this.get('map')) {
+      return;
+    }
+
+    var markers = this.get('markers');
+
+    markers.forEach(function(marker){
+      if (!filterById(marker.centerId, _this.get('filt_centers'))) {
+        marker.setMap(null);
+      }
+      else {
+        marker.setMap(_this.get('map'));
+      }
+    });
+
+    function filterById(id, centers) {
+      for (var i=0; i<centers.length; i++) {
+        if (centers[i].get('id') === id) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+  }.observes('filt_centers').on('didInsertElement'),
 	insertMap: function() {
     var position = this.get('position');
-    if (position) {
+    if (position && this.get('map')) {
       this.get('map').panTo(position);
-      smoothZoom(this.get('map'),12,this.get('map').getZoom());
+      var bounds = this.get('bounds');
+      if (bounds) {
+        if (typeof(bounds) === "number") {
+          this.get('map').setZoom(bounds);
+        }
+        else {
+          this.get('map').fitBounds(bounds);
+        }
+      }
       return;
     }
 
@@ -37,7 +73,8 @@ export default Ember.Component.extend({
     mapOptions);
     
       var lt, lg, i, marker, latLng;
-
+      var arr_of_promises = [];
+      var markers = [];
       for (i=0; i<centers.length; i++){
         lt = centers[i].get('latitude');
         lg = centers[i].get('longitude');
@@ -104,34 +141,68 @@ export default Ember.Component.extend({
           });          
         }
         
+        marker.centerType = centers[i].get('centerType');
         marker.centerId = centers[i].get('id');
         marker.centerSlug = centers[i].get('slug');
 
-        marker.infowindow = new google.maps.InfoWindow({
-            content: '<div id="content">'+
-                        '<h5>' + centers[i].get('name') + '</h5>'+
-                        '<div id="bodyContent">'+
-                        '<b>' + 'Διεύθυνση:' + ' </b>' + parseAddress(centers[i].get('address')) +
-                        '<br>' +
-                          '<b>'  + getTextCenterType(centers[i].get('centerType')) + '</b>' +
-                        '</div>'+
-                        '</div>',
-            options: {
-              maxWidth: 200
-            }
-          });
+        arr_of_promises.push(centers[i].get('importantNeeds'));
 
+        google.maps.event.addListener(marker, 'click', clickHandler());
 
-
-          google.maps.event.addListener(marker, 'click', clickHandler());
+        markers.push(marker);
         
-          google.maps.event.addListener(marker, 'mouseover', hoverHandler(marker));  
-
-          google.maps.event.addListener(marker, 'mouseout', hoverOutHandler());
-
-          this.set('map', map);
+        self.set('map', map);        
         }
 
+
+      Ember.RSVP.all(arr_of_promises).then(function(){
+        for (i=0;i<centers.length;i++) {
+          var needs = centers[i].get('importantNeeds');
+          var str = [];
+          needs.forEach(function(need){
+            if (need.get('id') === "1") {
+              str.push("<i class='alert-color fa fa-2x fa-cutlery'></i>");
+            }
+            else if (need.get('id') === "2") {
+              str.push("<i class='alert-color fa fa-2x fa-suitcase'></i>");
+            }
+            else if (need.get('id') === "3") {
+              str.push("<i class='alert-color fa fa-2x fa-medkit'></i>");
+            }
+            else if (need.get('id') === "4") {
+              str.push("<i class='alert-color fa fa-2x fa-users'></i>");
+            }
+            else if (need.get('id') === "5") {
+              str.push("<i class='alert-color fa fa-2x fa-cart-plus'></i>");
+            }
+          });
+          markers[i].importantNeeds = needs;
+//          markers[i].importantNeeds = needs;
+
+          marker = markers[i];
+            marker.infowindow = new google.maps.InfoWindow({
+                content: '<div id="content">'+
+                            '<h5>' + centers[i].get('name') + '</h5>'+
+                            '<div id="bodyContent">'+
+                            '<b>' + 'Διεύθυνση:' + ' </b>' + parseAddress(centers[i].get('address')) +
+                            '<br>' +
+                              '<b>'  + getTextCenterType(centers[i].get('centerType')) + '</b>' +
+                            '<br>' +
+                            str.join() +                  
+                            '</div>'+
+                            '</div>',
+                options: {
+                  maxWidth: 200
+                }
+              });
+            
+              google.maps.event.addListener(marker, 'mouseover', hoverHandler(marker));  
+
+              google.maps.event.addListener(marker, 'mouseout', hoverOutHandler());
+
+          }
+          self.set('markers', markers);
+      });
 
 
       function parseAddress (addr) {
@@ -181,5 +252,5 @@ export default Ember.Component.extend({
 
 
 
-	}.observes('position').on('didInsertElement')
+	}.observes('bounds').on('didInsertElement')
 });

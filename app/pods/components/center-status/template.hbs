@@ -10,23 +10,29 @@
 
 	<h4 class="text-center alert alert-info"> Τελευταίες Δημοσιεύσεις </h4>
 	<ul class="list-group">
+	{{#if loading}}
+
+		{{g-loader r="10" stroke-width="1" margin-top="0"}}
+
+	{{else}}
 		{{#each statuses as |status|}}
 			<li class="list-group-item"> 
 			<div class="row">
 				<div class="col-xs-8"> {{status.context}} </div>
 				<div class="col-xs-4">
 				<span style="color: #168ccc"> {{moment-format status.createdAt 'D MMM, HH:mm'}} </span>  
-{{#if session.isAuthenticated}}
-	{{#if isCurrentCenter}}		
-			<i {{action 'remove_status' status}} title="Διαγραφή" class="fa fa-remove pull-right"></i>  
-{{/if}}
-{{/if}}
+			{{#if session.isAuthenticated}}
+				{{#if isCurrentCenter}}		
+						<i {{action 'remove_status' status}} title="Διαγραφή" class="fa fa-remove pull-right"></i>  
+				{{/if}}
+			{{/if}}
 
 				</div>
 
 			</div>
 				</li>
 		{{/each}}
+	{{/if}}
 	</ul>
 
 </div>

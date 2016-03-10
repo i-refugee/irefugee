@@ -5,7 +5,6 @@ export default Ember.Route.extend({
 		return model.get('name');
 	},
 	model: function(params) {
-//		return this.store.queryRecord('center', { slug: params.slug });
 		return this.store.query('center', { slug: params.slug }).then(function(response){
 			return response.get('firstObject');
 		});
@@ -20,10 +19,17 @@ export default Ember.Route.extend({
 	    });
 	  },
   	serialize: function(model) {
+  		if (!model) {
+  			//after authentication sometimes model becomes undefined 
+  			return;
+  		}
 	    return { slug: model.get('slug') };
   	},
 
 	actions: {
+		willTransition: function() {
+			this.controller.set('isEditing', false);
+		},
 		new_status: function(text) {
 			var status = this.store.createRecord('status', {center: this.currentModel, context: text});
 			status.save();

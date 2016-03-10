@@ -2,13 +2,20 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   session: Ember.inject.service('session'),
+  initialize: function() {
+    var _this = this;
+    this.get('session').on('authenticationSucceeded', function() {
+      _this.store.queryRecord('center', {me: 'true'}).then((center) => {
+        _this.transitionToRoute('center', center.get('slug'));
+      });
+    });
+  }.on('init'),
   actions: {
     authenticate: function() {
       var _this = this;
       let { identification, password } = this.getProperties('identification', 'password');
       this.get('session').authenticate('authenticator:refugee', identification, password).then(function(){
-        _this.transitionToRoute('/')
-      }).catch((reason) => {
+        }).catch((reason) => {
         this.set('errorMessage', 'Λάθος Email ή Κωδικός');
         setTimeout(function(){
           _this.set('errorMessage', null);          

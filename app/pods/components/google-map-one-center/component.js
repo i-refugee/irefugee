@@ -5,6 +5,7 @@ export default Ember.Component.extend({
   old_marker: undefined,
   session: Ember.inject.service(),
   old_position: undefined,
+  places_markers: [],
 	insertMap: function() {
     var self = this;
       var center = this.get('center');
@@ -18,6 +19,58 @@ export default Ember.Component.extend({
       var map = new google.maps.Map(document.getElementById("map-canvas-one"),
     mapOptions);
       
+      //searchbox
+
+      var input = document.getElementById('pac-input');
+      var searchBox = new google.maps.places.SearchBox(input);
+      map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+      searchBox.addListener('places_changed', function() {
+                var places = searchBox.getPlaces();
+
+                if (places.length == 0) {
+                  return;
+                }
+
+                // Clear out the old markers.
+                var places_markers = self.get('places_markers');
+                places_markers.forEach(function(marker) {
+                  marker.setMap(null);
+                });
+                places_markers = [];
+
+                // For each place, get the icon, name and location.
+                var bounds = new google.maps.LatLngBounds();
+                places.forEach(function(place) {
+                  var icon = {
+                    url: place.icon,
+                    size: new google.maps.Size(71, 71),
+                    origin: new google.maps.Point(0, 0),
+                    anchor: new google.maps.Point(17, 34),
+                    scaledSize: new google.maps.Size(25, 25)
+                  };
+
+                  // Create a marker for each place.
+                  places_markers.push(new google.maps.Marker({
+                    map: map,
+                    icon: icon,
+                    title: place.name,
+                    position: place.geometry.location
+                  }));
+
+                  if (place.geometry.viewport) {
+                    // Only geocodes have viewport.
+                    bounds.union(place.geometry.viewport);
+                  } else {
+                    bounds.extend(place.geometry.location);
+                  }
+                });
+                self.set('places_markers', places_markers);
+                map.fitBounds(bounds);
+              });
+      /////////////////////////
+
+
       var lt, lg, i, marker, latLng;
 
         var type = center.get('centerType');

@@ -10,8 +10,10 @@
 						</div>
 					{{/if}}
 				{{/if}}
+{{!--   	{{tour-shepherd}}
+ --}}
 				{{#if isEditing}}
-					<form>
+					<form {{action 'submitInfo' on='submit'}}>
 					  <div class="form-group">
 					    <label for="address_input">Διεύθυνση</label>
 					    {{input value=model.address type="text" class="form-control" id="address_input" placeholder="Διεύθυνση"}}
@@ -22,7 +24,7 @@
 					  </div>
 					  <div class="form-group">
 					    <label for="refugees_input">Φιλοξενούμενοι</label>
-					    {{input value=model.refugeesNumber type="number" class="form-control" id="refugees_input" placeholder="Φιλοξενούμενοι"}}
+					    {{input value=model.refugeesNumber type="number" class="form-control" id="refugees_input" min="0" placeholder="Φιλοξενούμενοι"}}
 					  </div>
 					  <div class="form-group">
 					    <label for="mail_input">E-mail</label>
@@ -43,7 +45,7 @@
       {{#x-option value=5}}Ναυαγωσωστικές ομάδες{{/x-option}}
     {{/x-select}}
 					 </div>
-					  <button {{action 'submitInfo'}} type="submit" class="btn btn-success">Καταχώρηση</button>
+					  <button type="submit" class="btn btn-success">Καταχώρηση</button>
 					  <button {{action 'cancelInfo'}} type="submit" class="btn btn-warning">Ακύρωση</button>
 					</form>
 				{{else}}
@@ -51,8 +53,8 @@
 					<p id="phone">{{fa-icon icon="phone" title="Τηλέφωνο"}} {{model.phoneNumber}} </p>
 					<p id="refugees">{{fa-icon icon="users" title="Πρόσφυγες"}} {{model.refugeesNumber}} </p>
 					<p id="mail">{{fa-icon icon="envelope" title="E-mail"}} {{model.contactEmail}} </p>
-					<p id="description">{{fa-icon icon="book" title="Περιγραφή"}} {{model.description}} </p>
-					<p id="type"> 
+					<p style="overflow-y: scroll; max-height:200px;" id="description">{{fa-icon icon="book" title="Περιγραφή"}} {{model.description}} </p>
+					<p id="type"> {{fa-icon icon="institution" title="Τύπος Ομάδας"}}
 				 {{#if (eq model.centerType 1)}}
 				 Αυτοδιαχειριζόμενη δομή
 				 {{/if}}
