@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
 	session: Ember.inject.service(),
-	loading: false;
+	loading: false,
 	observerStatuses: function() {
 		this.set('loading', true);
 		var _this = this;
@@ -18,7 +18,7 @@ export default Ember.Component.extend({
 		},
 		remove_status: function(status) {
 			var r = confirm("Να διαγραφεί το status;");
-			if (r == true) {
+			if (r === true) {
 			    status.destroyRecord();
 			} else {
 			}

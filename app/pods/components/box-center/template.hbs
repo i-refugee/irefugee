@@ -2,70 +2,73 @@
 	<div class="panel panel-default">
 		<div class="panel-heading"><a title={{center.name}} style="text-overflow:ellipsis;" href="{{href-to 'center' center}}"> {{center.name}}</a></div>
 		<div class="panel panel-body">
-			{{#if media.isDesktop}}
-				<div class="col-md-6">
-					{{lazy-image class="center-list-image pull-left" url=(if center.imageUrl center.imageUrl "/assets/default.png")}}
-				</div>
-			{{/if}}
-			<div class="col-md-6 col-xs-12 box-content">
-				<p class="center-location-list"><i title="Διεύθυνση" class="fa fa-map"></i> &nbsp; {{center.address}}</p>
-				{{#if (gt center 0)}}
-					<p class="center-ref-list">{{center.refugeesNumber}} Φιλοξενούμενοι</p>
+			<div class="row">
+				{{#if media.isDesktop}}
+					<div class="col-md-4 box-image-container">
+						{{lazy-image class="box-image" url=(if center.imageUrl center.imageUrl "/assets/default.png")}}
+						<p>{{!-- <i title="Διεύθυνση" class="fa fa-map"></i> &nbsp;  --}}{{center.address}}</p>
+					</div>
 				{{/if}}
-				<p class="center-ref-list">{{fa-icon icon="institution" title="Τύπος Ομάδας"}}<b>
-				 {{#if (eq center.centerType 1)}}
-				 Αυτοδιαχειριζόμενη δομή
-				 {{/if}}
-				 {{#if (eq center.centerType 2)}}
-				 Μαγειρείο
-				 {{/if}}
-				 {{#if (eq center.centerType 3)}}
-				 Δομή πρώτης υποδοχής
-				 {{/if}}
-				 {{#if (eq center.centerType 4)}}
-				 Ανοιχτή δομή φιλοξενίας
-				 {{/if}}
-				 {{#if (eq center.centerType 5)}}
-				 Ναυαγοσωστική ομάδα				 
-				{{/if}}
-				</b>
-				 </p>
-				{{#if (or media.isMobile media.isTable)}}
-					{{#if (and center.latitude center.longitude)}}
-						<a href="https://www.google.com/maps/place/{{center.latitude}},{{center.longitude}}">Δείτε το στο χάρτη</a> 
+				<div class="col-md-8 col-xs-12 box-content">
+					
+	{{!-- 				{{#if (gt center.refugeesNumber 0)}}
+						<p align="justify" class="center-ref-list">{{center.refugeesNumber}} Φιλοξενούμενοι</p>
+					{{/if}} --}}
+					<p class="center-ref-list">{{fa-icon icon="institution" title="Τύπος Ομάδας"}}<b>
+					 {{#if (eq center.centerType 1)}}
+					 Αυτοδιαχειριζόμενη δομή
+					 {{/if}}
+					 {{#if (eq center.centerType 2)}}
+					 Μαγειρείο
+					 {{/if}}
+					 {{#if (eq center.centerType 3)}}
+					 Δομή πρώτης υποδοχής
+					 {{/if}}
+					 {{#if (eq center.centerType 4)}}
+					 Ανοιχτή δομή φιλοξενίας
+					 {{/if}}
+					 {{#if (eq center.centerType 5)}}
+					 Ναυαγοσωστική ομάδα				 
 					{{/if}}
-				{{/if}}
-				<div class="important-needs">
-					{{#if center.importantNeeds.isFulfilled}}
-						{{#each center.importantNeeds as |importantNeed|}}
-							{{#if (eq importantNeed.id "1")}}
-								<i title="Τρόφιμα" class="fa fa-2x fa-cutlery alert-color"></i>
-							{{/if}}
-							{{#if (eq importantNeed.id "2")}}
-								<i title="Ρουχισμός" class="fa fa-2x fa-suitcase alert-color"></i>
-							{{/if}}
-							{{#if (eq importantNeed.id "3")}}
-								<i title="Φάρμακα" class="fa fa-2x fa-medkit alert-color"></i>
-							{{/if}}
-							{{#if (eq importantNeed.id "4")}}
-								<i title="Ανθρώπινο Δυναμικό" class="fa fa-2x fa-users alert-color"></i>
-							{{/if}}
-							{{#if (eq importantNeed.id "5")}}
-								<i title="Διάφορα" class="fa fa-2x fa-cart-plus alert-color"></i>
-							{{/if}}
-						{{/each}}
+					</b>
+					 </p>
+					{{#if (or media.isMobile media.isTable)}}
+						{{#if (and center.latitude center.longitude)}}
+							<a href="https://www.google.com/maps/place/{{center.latitude}},{{center.longitude}}">Δείτε το στο χάρτη</a> 
+						{{/if}}
 					{{/if}}
+					<div class="important-needs">
+						{{#if center.importantNeeds.isFulfilled}}
+							{{#each center.importantNeeds as |importantNeed|}}
+								{{#if (eq importantNeed.id "1")}}
+									<i title="Τρόφιμα" class="fa fa-2x fa-cutlery alert-color"></i>
+								{{/if}}
+								{{#if (eq importantNeed.id "2")}}
+									<i title="Ρουχισμός" class="fa fa-2x fa-suitcase alert-color"></i>
+								{{/if}}
+								{{#if (eq importantNeed.id "3")}}
+									<i title="Φάρμακα" class="fa fa-2x fa-medkit alert-color"></i>
+								{{/if}}
+								{{#if (eq importantNeed.id "4")}}
+									<i title="Ανθρώπινο Δυναμικό" class="fa fa-2x fa-users alert-color"></i>
+								{{/if}}
+								{{#if (eq importantNeed.id "5")}}
+									<i title="Διάφορα" class="fa fa-2x fa-cart-plus alert-color"></i>
+								{{/if}}
+							{{/each}}
+						{{/if}}
+					</div>
 				</div>
 			</div>
-
-
-{{!-- 			<div class="keywords">
-				{{#if center.centerKeywords.isFulfilled}}
-					{{#each center.centerKeywords as |key|}}
-						{{key.keyword.keyword}}
-					{{/each}}
-				{{/if}}
-			</div> --}}
+			<div class="row keywords-container">
+				<div class="col-xs-12 keywords">
+{{!-- 					{{#if center.centerKeywords.isFulfilled}}
+						{{#each center.centerKeywords as |key|}}
+							<span class="box-keyword alert-info">{{key-word key.keyword.keyword}}</span>
+						{{/each}}
+					{{/if}} --}}
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
