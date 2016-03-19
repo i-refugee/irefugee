@@ -1,6 +1,11 @@
 <input id="pac-input" class="controls" type="text" placeholder="Αναζήτηση Τοποθεσίας...">
 <div id="map-canvas-one"></div>
-{{#if isEditing}}
-	<button {{action 'disableEditingAndSave'}} class="btn btn-primary pull-right">Καταχώρηση Τοποθεσίας</button>
+{{#if (and isCurrentCenter session.isAuthenticated)}}
+	{{#if (not isEditing)}}
+		<button id="edit-location" {{action 'checkEditAndAct'}} class="btn btn-primary pull-right">Αλλαγή Τοποθεσίας</button>
+	{{else}}
+		<button id="edit-location" {{action 'checkEditAndAct'}} class="btn btn-success pull-right">Καταχώρηση</button>
+	{{/if}}
 {{/if}}
 {{yield}}
+

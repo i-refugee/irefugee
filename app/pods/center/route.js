@@ -5,11 +5,15 @@ export default Ember.Route.extend({
 		return model.get('name');
 	},
 	model: function(params) {
+		console.log(params)
 		return this.store.query('center', { slug: params.slug }).then(function(response){
 			return response.get('firstObject');
 		});
 	},
 	  afterModel: function(model) {
+	  	if (!model) {
+	  		this.transitionTo('error');
+	  	}
 	    $(function () { // dom ready
 	      var meta = $('meta[property=og\\:url]').attr('content', window.location.href);
 	      var meta = $('meta[property=og\\:title]').attr('content', model.get('name') + "- i-refugee");
@@ -27,6 +31,11 @@ export default Ember.Route.extend({
   	},
 
 	actions: {
+		error: function(error) {
+			if (error) {
+				this.transitionTo('error');
+			}
+		},
 		willTransition: function() {
 			this.controller.set('isEditing', false);
 		},

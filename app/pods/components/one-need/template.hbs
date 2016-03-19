@@ -5,7 +5,7 @@
 	  	(Ανανεώθηκε: {{moment-format centerNeed.updatedAt 'D/M'}})
 	  	{{#if session.isAuthenticated}}
 	  	{{#if isCurrentCenter}}
-	  		<button class='fa fa-edit pull-right active' {{action 'edit'}} ></button>
+	  		<button id="edit-center-need" class='fa fa-edit pull-right active' {{action 'edit'}} ></button>
 	  	{{/if}}
 	  	{{/if}}
 	  	{{#if (eq centerNeed.importance 3)}}
@@ -24,8 +24,13 @@
 				  {{#x-option value=3}}Μεγάλη{{/x-option}}
 				{{/x-select}}
 		   	</div>
- 			<button class="btn btn-success pull-right" {{action 'submit'}}>Καταχώρηση</button>
- 			<button class="btn btn-warning pull-right" {{action 'cancel'}}>Ακύρωση</button>
+		   	{{#if media.isMobile}}
+	 			<button class="btn btn-success pull-right" {{action 'submit'}}>{{fa-icon icon="check"}}</button>
+	 			<button class="btn btn-warning pull-right" {{action 'cancel'}}>{{fa-icon icon="remove"}}</button>
+		   	{{else}}
+	 			<button class="btn btn-success pull-right" {{action 'submit'}}>Καταχώρηση</button>
+	 			<button class="btn btn-warning pull-right" {{action 'cancel'}}>Ακύρωση</button>
+	 		{{/if}}
  		{{/if}}
 	</div>
 </div>

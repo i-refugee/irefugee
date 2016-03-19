@@ -26,7 +26,12 @@
 						<i {{action 'remove_status' status}} title="Διαγραφή" class="fa fa-remove pull-right"></i>  
 				{{/if}}
 			{{/if}}
-
+{{!-- 				<div class="social-media">
+				  <i title="Share on Facebook" {{action 'shareStatusFacebook' status.context}} class="fa fa-facebook-official fa-2x" style="color: #3b5998;"></i>
+				  <a title="Share on Twitter" {{action 'shareOnTwitter' status.context}}><i style="color: #1dcaff;" class="fa fa-twitter fa-2x"></i></a>
+				</div>
+ --}}
+				
 				</div>
 
 			</div>
@@ -39,3 +44,4 @@
 
 
 {{yield}}
+

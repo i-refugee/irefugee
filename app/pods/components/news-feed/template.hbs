@@ -2,16 +2,32 @@
 	<h4 class="text-center alert alert-info"> Τρέχοντα Νέα </h4>
 	<ul class="list-group ">
 		{{#if (not loading)}}
-			{{#each news as |new|}}
-				<li class="list-group-item">
-					{{#if new.center}} 
-						<a style="color: black;" href="{{href-to 'center' new.center}}"> 
-							{{new.content}} 
-						</a>
+			{{#each news as |new idx|}}
+				{{#if media.isMobile}}
+					{{#if (gt idx 4)}}
+
 					{{else}}
-						<span style="color: black;">{{new.content}}</span>
-					{{/if}}  
-				<span style="color: #168ccc" class="pull-right"> {{moment-format new.createdAt 'D MMM, h:mm:ss a'}} </span> </li>
+						<li class="list-group-item">
+								{{#if new.center}} 
+									<a style="color: black;" href="{{href-to 'center' new.center}}"> 
+										{{new.content}} 
+									</a>
+								{{else}}
+									<span style="color: black;">{{new.content}}</span>
+								{{/if}}  
+							<span style="color: #168ccc" class="pull-right"> {{moment-format new.createdAt 'D MMM, h:mm:ss a'}} </span> </li>
+					{{/if}}
+				{{else}}
+					<li class="list-group-item">
+						{{#if new.center}} 
+							<a style="color: black;" href="{{href-to 'center' new.center}}"> 
+								{{new.content}} 
+							</a>
+						{{else}}
+							<span style="color: black;">{{new.content}}</span>
+						{{/if}}  
+					<span style="color: #168ccc" class="pull-right"> {{moment-format new.createdAt 'D MMM, h:mm:ss a'}} </span> </li>
+				{{/if}}
 			{{/each}}
 		{{else}}
 			<div class="loader" style="margin-top: 5%;">

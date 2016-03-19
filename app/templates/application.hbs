@@ -8,34 +8,21 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right" style="margin-right: 20px;">
-        <li><a href={{href-to 'about'}}>Σκοπός</a></li>
-        <li><a href={{href-to 'how-to-use'}}>Οδηγίες Χρήσης</a></li>
+        <li><a class="closes-navbar" href={{href-to 'about'}}>Σκοπός</a></li>
+        <li><a class="closes-navbar" href={{href-to 'how-to-use'}}>Οδηγίες Χρήσης</a></li>
         {{#if session.isAuthenticated}}
-          <li><a href={{href-to 'center' session.data.currentCenterSlug}}>Η ομάδα μου</a></li>
-          <li {{action 'invalidate'}}><a>Αποσύνδεση</a></li>
+          <li><a class="closes-navbar" href={{href-to 'center' session.data.currentCenterSlug}}>Η ομάδα μου</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{fa-icon icon="caret-down"}}</a>
+            <ul class="dropdown-menu">
+              <li><a class="closes-navbar" href={{href-to 'settings'}}>Ρυθμίσεις</a></li>        
+              <li {{action 'invalidate'}}><a class="closes-navbar">Αποσύνδεση</a></li>
+            </ul>
+          </li>
         {{else}}  
-          <li><a href={{href-to 'login'}}>Σύνδεση</a></li>
+          <li><a class="closes-navbar" href={{href-to 'login'}}>Σύνδεση</a></li>
         {{/if }}
       </ul>
-
-{{!--       <form class="navbar-form">
-        <div class="form-group" style="display:inline;">
-          <div class="input-group">
-            <div class="input-group-btn">
-              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-chevron-down"></span></button>
-              <ul class="dropdown-menu">
-                <li><a href="#">Category 1</a></li>
-                <li><a href="#">Category 2</a></li>
-                <li><a href="#">Category 3</a></li>
-                <li><a href="#">Category 4</a></li>
-                <li><a href="#">Category 5</a></li> 
-              </ul>
-            </div>
-            <input type="text" class="form-control" placeholder="What are searching for?">
-            <span class="input-group-addon"><span class="glyphicon glyphicon-search"></span> </span>
-          </div>
-        </div>
-      </form> --}}
     </div> 
 </div>
 {{ember-notify messageStyle='bootstrap'}}

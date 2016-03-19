@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# $1 -> username
+# $2 -> ip
+# $3 -> directory to copy to
+# $4 -> api url to use
+
+
+find app -type f -exec sed -i -e "s/localhost:3000/$4/g" {} \;
+
+ember build --environment production
+
+scp -r dist $1@$2:$3

@@ -25,6 +25,8 @@ export default Ember.Component.extend({
       var searchBox = new google.maps.places.SearchBox(input);
       map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
+      $("#pac-input").prop('disabled', true);
+
       searchBox.addListener('places_changed', function() {
                 var places = searchBox.getPlaces();
 
@@ -32,31 +34,90 @@ export default Ember.Component.extend({
                   return;
                 }
 
-                // Clear out the old markers.
-                var places_markers = self.get('places_markers');
-                places_markers.forEach(function(marker) {
+
+                var markers = self.get('markers');
+
+                if (markers.length > 0) {
+                  marker = markers.pop();
+                  google.maps.event.clearInstanceListeners(marker);
                   marker.setMap(null);
-                });
-                places_markers = [];
+                }
 
                 // For each place, get the icon, name and location.
                 var bounds = new google.maps.LatLngBounds();
-                places.forEach(function(place) {
-                  var icon = {
-                    url: place.icon,
-                    size: new google.maps.Size(71, 71),
-                    origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(17, 34),
-                    scaledSize: new google.maps.Size(25, 25)
-                  };
 
-                  // Create a marker for each place.
-                  places_markers.push(new google.maps.Marker({
-                    map: map,
-                    icon: icon,
-                    title: place.name,
-                    position: place.geometry.location
-                  }));
+
+
+                var type = center.get('centerType');
+
+
+                var place = places[0];
+
+                if (type === 1) {
+                  marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map,
+                      icon: "assets/map-icons/revolt.png"
+                  });
+                }
+                else if (type === 2) {
+                  marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map,
+                      icon: "assets/map-icons/restaurant.png"
+                  });
+                }
+                else if (type === 3) {
+                  marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map,
+                      icon: "assets/map-icons/camping-2.png"
+                  });
+                }
+                else if (type === 4) {
+                  marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map,
+                      icon: "assets/map-icons/cabin-2.png"
+                  });
+                }
+                else if (type === 5) {
+                  marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map,
+                      icon: "assets/map-icons/firstaid.png"
+                  });
+                }
+                else {
+                  marker = new google.maps.Marker({
+                      position: place.geometry.location,
+                      map: map
+                  });          
+                }
+
+
+                marker.infowindow = new google.maps.InfoWindow({
+                    content: '<div id="content">'+
+                                '<h5>' + center.get('name') + '</h5>'+
+                                '<div id="bodyContent">'+
+                                '<br>' + 
+                                '<b>' + 'Διεύθυνση:' + ': </b>' + ParseAddress(center.get('address')) +
+                                '<br>' +
+                                '<b>'  + getTextCenterType(center.get('centerType')) + '</b>' +
+                                '</div>'+
+                                '</div>',
+                    options: {
+                      maxWidth: 200
+                    }
+                  });
+
+                google.maps.event.addListener(marker, 'mouseover', hoverHandler(marker));  
+
+                google.maps.event.addListener(marker, 'mouseout', hoverOutHandler());
+                marker.set('draggable', true);
+                self.get('markers').pushObject(marker);
+
+
 
                   if (place.geometry.viewport) {
                     // Only geocodes have viewport.
@@ -64,8 +125,8 @@ export default Ember.Component.extend({
                   } else {
                     bounds.extend(place.geometry.location);
                   }
-                });
-                self.set('places_markers', places_markers);
+
+
                 map.fitBounds(bounds);
               });
       /////////////////////////
@@ -85,53 +146,53 @@ export default Ember.Component.extend({
           );
           
 
-        if (type === 1) {
-          marker = new google.maps.Marker({
-              position: latLng,
-              map: map,
-              animation: google.maps.Animation.DROP,
-              icon: "assets/map-icons/revolt.png"
-          });
-        }
-        else if (type === 2) {
-          marker = new google.maps.Marker({
-              position: latLng,
-              map: map,
-              animation: google.maps.Animation.DROP,
-              icon: "assets/map-icons/restaurant.png"
-          });
-        }
-        else if (type === 3) {
-          marker = new google.maps.Marker({
-              position: latLng,
-              map: map,
-              animation: google.maps.Animation.DROP,
-              icon: "assets/map-icons/camping-2.png"
-          });
-        }
-        else if (type === 4) {
-          marker = new google.maps.Marker({
-              position: latLng,
-              map: map,
-              animation: google.maps.Animation.DROP,
-              icon: "assets/map-icons/cabin-2.png"
-          });
-        }
-        else if (type === 5) {
-          marker = new google.maps.Marker({
-              position: latLng,
-              map: map,
-              animation: google.maps.Animation.DROP,
-              icon: "assets/map-icons/firstaid.png"
-          });
-        }
-        else {
-          marker = new google.maps.Marker({
-              position: latLng,
-              map: map,
-              animation: google.maps.Animation.DROP
-          });          
-        }
+          if (type === 1) {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                icon: "assets/map-icons/revolt.png"
+            });
+          }
+          else if (type === 2) {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                icon: "assets/map-icons/restaurant.png"
+            });
+          }
+          else if (type === 3) {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                icon: "assets/map-icons/camping-2.png"
+            });
+          }
+          else if (type === 4) {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                icon: "assets/map-icons/cabin-2.png"
+            });
+          }
+          else if (type === 5) {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                animation: google.maps.Animation.DROP,
+                icon: "assets/map-icons/firstaid.png"
+            });
+          }
+          else {
+            marker = new google.maps.Marker({
+                position: latLng,
+                map: map,
+                animation: google.maps.Animation.DROP
+            });          
+          }
 
 
           marker.infowindow = new google.maps.InfoWindow({
@@ -159,7 +220,7 @@ export default Ember.Component.extend({
       this.set('map', map);
     
       if (this.get('isCurrentCenter') && this.get('session.isAuthenticated')) {
-        showButtonToEdit();
+//        showButtonToEdit();
       }
 
       function showButtonToEdit() {
@@ -271,6 +332,12 @@ export default Ember.Component.extend({
     var center = this.get('center');
     var _this = this;
     var latLng;
+
+
+    // enable the searchbox
+    
+    $("#pac-input").prop('disabled', false);
+
 
     if (markers.length > 0) {
       marker = markers[0];
@@ -446,6 +513,7 @@ export default Ember.Component.extend({
   },
   disableEditing: function() {
     this.set('isEditing', false);
+    $("#pac-input").prop('disabled', true);
 
     var map = this.get('map');
     var markers = this.get('markers');
@@ -458,6 +526,7 @@ export default Ember.Component.extend({
   },
   disableEditingAndDontSave: function() {
     this.set('isEditing', false);
+    $("#pac-input").prop('disabled', true);
 
     var map = this.get('map');
     var markers = this.get('markers');
@@ -482,24 +551,36 @@ export default Ember.Component.extend({
     this.set('markers', markers);
     google.maps.event.clearListeners(map, 'click');
   },
+  disableEditingAndSave: function() {
+    this.set('isEditing', false);
+    $("#pac-input").prop('disabled', true);
+
+    var markers = this.get('markers');
+    if (!markers.length) {
+      Ember.run(this, this.disableEditing);
+    } 
+    else {
+      var marker = markers[0];
+      this.set('old_marker', marker);
+      this.set('old_position', marker.position);
+      var center = this.get('center');
+      var position = marker.getPosition();
+      center.set('latitude', position.lat());
+      center.set('longitude', position.lng());
+      center.save().then(function(center){
+      }). 
+        catch(function(){
+      });
+      Ember.run(this, this.disableEditing);
+    }
+  },
   actions: {
-    disableEditingAndSave: function() {
-      console.log("saving")
-      this.set('isEditing', false);
-      var markers = this.get('markers');
-      if (!markers.length) {
-        Ember.run(this, this.disableEditing);
-      } 
+    checkEditAndAct: function() {
+      if (this.get('isEditing')) {
+        Ember.run.once(this, this.disableEditingAndSave);
+      }
       else {
-        var marker = markers[0];
-        this.set('old_marker', marker);
-        this.set('old_position', marker.position);
-        var center = this.get('center');
-        var position = marker.getPosition();
-        center.set('latitude', position.lat());
-        center.set('longitude', position.lng());
-        center.save();
-        Ember.run(this, this.disableEditing);
+        Ember.run.once(this, this.enableEditing);        
       }
     }
   }

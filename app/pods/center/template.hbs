@@ -5,13 +5,15 @@
 			{{image-with-upload center=model isCurrentCenter=isCurrentCenter}}
 				{{#if session.isAuthenticated}}
 					{{#if isCurrentCenter}}
+						{{#if (or media.isDesktop media.isTablet)}}
+						  	{{tour-shepherd}}
+						{{/if}}
 						<div {{action 'editCenterInfo'}} class="pull-right">
-							<button>{{fa-icon icon="edit" title="Επεξεργασία"}}</button>
+							<button id="edit-center-description">{{fa-icon icon="edit" title="Επεξεργασία"}}</button>
 						</div>
 					{{/if}}
 				{{/if}}
-{{!--   	{{tour-shepherd}}
- --}}
+
 				{{#if isEditing}}
 					<form {{action 'submitInfo' on='submit'}}>
 					  <div class="form-group">
@@ -35,15 +37,15 @@
 					    {{textarea value=model.description type="text" class="form-control" id="desc_input" placeholder="Περιγραφή"}}
 					  </div>
   					  <div class="form-group">
-					    <label for="m">Τύπος Κέντρου</label>
-    {{#x-select class="form-control" value=model.centerType }}
-      {{#x-option value=0}}Κανένας{{/x-option}}
-      {{#x-option value=1}}Αυτοδιαχειριζόμενη δομή{{/x-option}}
-      {{#x-option value=2}}Μαγειρεία{{/x-option}}
-      {{#x-option value=3}}Δομές πρώτης υποδοχής{{/x-option}}
-      {{#x-option value=4}}Ανοιχτές δομές φιλοξενίας{{/x-option}}
-      {{#x-option value=5}}Ναυαγωσωστικές ομάδες{{/x-option}}
-    {{/x-select}}
+					    <label for="m">Τύπος Ομάδας</label>
+				    {{#x-select class="form-control" value=model.centerType }}
+				      {{#x-option value=0}}Κανένας{{/x-option}}
+				      {{#x-option value=1}}Αυτοδιαχειριζόμενη δομή{{/x-option}}
+				      {{#x-option value=2}}Μαγειρεία{{/x-option}}
+				      {{#x-option value=3}}Δομές πρώτης υποδοχής{{/x-option}}
+				      {{#x-option value=4}}Ανοιχτές δομές φιλοξενίας{{/x-option}}
+				      {{#x-option value=5}}Ναυαγωσωστικές ομάδες{{/x-option}}
+				    {{/x-select}}
 					 </div>
 					  <button type="submit" class="btn btn-success">Καταχώρηση</button>
 					  <button {{action 'cancelInfo'}} type="submit" class="btn btn-warning">Ακύρωση</button>
@@ -51,7 +53,7 @@
 				{{else}}
 					<p style="margin-top:10px;" id="address">{{fa-icon icon="map" title="Διεύθυνση"}} {{model.address}} </p>
 					<p id="phone">{{fa-icon icon="phone" title="Τηλέφωνο"}} {{model.phoneNumber}} </p>
-					<p id="refugees">{{fa-icon icon="users" title="Πρόσφυγες"}} {{model.refugeesNumber}} </p>
+					<p id="refugees">{{fa-icon icon="users" title="Φιλοξενούμενοι"}} {{model.refugeesNumber}} </p>
 					<p id="mail">{{fa-icon icon="envelope" title="E-mail"}} {{model.contactEmail}} </p>
 					<p style="overflow-y: scroll; max-height:200px;" id="description">{{fa-icon icon="book" title="Περιγραφή"}} {{model.description}} </p>
 					<p id="type"> {{fa-icon icon="institution" title="Τύπος Ομάδας"}}

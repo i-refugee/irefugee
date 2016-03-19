@@ -1,5 +1,14 @@
 <div id="img-container">
-	<img src={{if center.imageUrl center.imageUrl "/assets/default.png"}} id="profile-image" alt="">
+	{{#if loading}}
+			Παρακαλώ Περιμένετε...
+		  <div class="loader" style="margin-top: 15%;">
+			    <svg class="circular" viewBox="25 25 50 50">
+			      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+			    </svg>
+			</div>
+	{{else}}
+		<img src={{if center.imageUrl center.imageUrl "/assets/default.png"}} id="profile-image" alt="">
+	{{/if}}
 	{{#if session.isAuthenticated}}
 	{{#if isCurrentCenter}}
 	<div id="caption">

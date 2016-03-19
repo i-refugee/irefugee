@@ -1,7 +1,7 @@
 <div class="container-fluid" id="main">
   <div class="row">
   	<div class="col-sm-6" id="left">
-      {{centers-list moveMap='moveMap' filterMap='filterMap' centers=model.centers keywords=model.keywords needs=model.needs}}
+      {{centers-list moveMap='moveMap' filterMap='filterMap' centers=model.centers keywords=model.keywords needs=model.needs requestKeywordsFromStore='requestKeywordsFromStore'}}
     </div>
     <div class="col-sm-6"> </div>
 		{{news-feed}}

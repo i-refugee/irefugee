@@ -62,11 +62,19 @@
 			</div>
 			<div class="row keywords-container">
 				<div class="col-xs-12 keywords">
-{{!-- 					{{#if center.centerKeywords.isFulfilled}}
-						{{#each center.centerKeywords as |key|}}
-							<span class="box-keyword alert-info">{{key-word key.keyword.keyword}}</span>
+					{{#if center.centerKeywords.isFulfilled}}
+						{{#each center.centerKeywords as |key idx|}}
+							{{#if (gt idx 7)}}
+							
+							{{else if (eq idx 7)}}
+								<span>...</span>
+							{{else if (lt idx 7)}}
+								{{#if key.keyword.isFulfilled}}
+									<span class="box-keyword alert-info">{{key-word key.keyword.keyword}}</span>
+								{{/if}}
+							{{/if}}
 						{{/each}}
-					{{/if}} --}}
+					{{/if}}
 				</div>
 			</div>
 		</div>

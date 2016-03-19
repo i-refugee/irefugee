@@ -38,12 +38,12 @@ export default Ember.Component.extend({
 		});
 
 		var p = $("#" + elementId + " .panel-body");
-		if (p.height() > 200) {
-			p.height(160); 
+		if (p.height() > 100) {
+			p.height(100); 
 			p.after("<a class='readmore'> Περισσότερα </a>");
 			$("#" + elementId + " .readmore").click(function() {
 				if (_this.get('isExpanded')) {
-					p.height(160);
+					p.height(100);
 					$("#" + elementId + " .readmore").html("Περισσότερα");
 					_this.set('isExpanded', false);
 				}
@@ -99,13 +99,13 @@ export default Ember.Component.extend({
 			$("#" + elementId + " .panel-body").empty();
 			$("#" + elementId + " .panel-body").append(value);
 			var p = $("#" + elementId + " .panel-body");
-			if (p.height() > 200) {
-				p.height(160); 
+			if (p.height() > 100) {
+				p.height(100); 
 				p.after("<a class='readmore'> Περισσότερα </a>");
 				this.set('isExpanded', false);
 				$("#" + elementId + " .readmore").click(function() {
 					if (_this.get('isExpanded')) {
-						p.height(160);
+						p.height(100);
 						$("#" + elementId + " .readmore").html("Περισσότερα");
 						_this.set('isExpanded', false);
 					}
@@ -127,13 +127,13 @@ export default Ember.Component.extend({
 			$("#" + elementId + " .panel-body").empty();
 			$("#" + elementId + " .panel-body").append(this.get('centerNeed.description'));
 				var p = $("#" + elementId + " .panel-body");
-				if (p.height() > 200) {
-					p.height(160); 
+				if (p.height() > 100) {
+					p.height(100); 
 					p.after("<a class='readmore'> Περισσότερα </a>");
 					this.set('isExpanded', false);
 					$("#" + elementId + " .readmore").click(function() {
 						if (_this.get('isExpanded')) {
-							p.height(160);
+							p.height(100);
 							$("#" + elementId + " .readmore").html("Περισσότερα");
 							_this.set('isExpanded', false);
 						}

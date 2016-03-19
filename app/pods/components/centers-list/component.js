@@ -1,6 +1,12 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+	sortKeywordPropertiesAlphabetically: ['keyword'],
+	sortKeywordPropertiesId: ['createdAt:asc'],
+	sortNeedPropertiesId: ['createdAt:asc'],
+	keywordsSortedAlphabetically: Ember.computed.sort('keywords', 'sortKeywordPropertiesAlphabetically'),
+	keywordsSortedByIndex: Ember.computed.sort('keywords', 'sortKeywordPropertiesId'),
+	needsSortedByIndex: Ember.computed.sort('needs', 'sortNeedPropertiesId'),
 	ns: [],
 	keys: [],
 	showSearch: false,
@@ -8,7 +14,7 @@ export default Ember.Component.extend({
 	by_address: false,
 	by_me: false,
 	loading: false,
-	selected_type: null,
+	selected_type: 0,
 	isClearing: false,
 	session: Ember.inject.service(),
 	observeFilters: function() {
@@ -18,6 +24,7 @@ export default Ember.Component.extend({
 		if (this.get('by_address')) {
 			this.set('by_me', !this.get('by_address'));
 		}
+		this.get('session').set('data.by_address', this.get('by_address'));
 	}.observes('by_address'),
 	observeCheckboxMe: function() {
 		if (this.get('by_me')) {
@@ -25,10 +32,11 @@ export default Ember.Component.extend({
 			Ember.run.once(this, this.global_search);
 		}
 		else {
-			if (this.get('placeToGeolocate')) {
+			if (this.get('placeToGeolocate') && this.get('by_address')) {
 				Ember.run.once(this, this.global_search);
 			}
 		}
+		this.get('session').set('data.by_me', this.get('by_me'));
 	}.observes('by_me'),
 	initializeSearchBox: function() {
 		var input = document.getElementById('place_search');
@@ -53,10 +61,10 @@ export default Ember.Component.extend({
 		      }
 		    });
 
-	      	var latLng = new window.google.maps.LatLng(
-	            places[0].geometry.location.lat(),
-	            places[0].geometry.location.lng()
-	        );
+	      	var latLng = {
+	            lat: places[0].geometry.location.lat(),
+	            lng: places[0].geometry.location.lng()
+	        }
 		  	_this.set('by_address', true);
 		  	_this.set('placeToGeolocate', latLng);
 		  	_this.set('bounds', bounds);
@@ -73,9 +81,9 @@ export default Ember.Component.extend({
 
 		var savedNeedIds = this.get('session.data.needs');
 		if (savedNeedIds && savedNeedIds.length) {
-			var all_needs = this.get('needs').toArray();
+			var sorted_need_ids = this.get('needsSortedByIndex');
 			for (i=0;i<savedNeedIds.length;i++) {
-				this.get('ns').addObject(all_needs[savedNeedIds[i]-1]);
+				this.get('ns').addObject(sorted_need_ids[savedNeedIds[i]-1]);
 				var element = $("i#" + savedNeedIds[i]);
 				element.toggleClass("icon-background-grey icon-background-grey-more");
 				element.parent().next().addClass('black');
@@ -87,13 +95,9 @@ export default Ember.Component.extend({
 
 		var savedKeywordIds = this.get('session.data.keywords');
 		if (savedKeywordIds && savedKeywordIds.length) {
-			var all_keywords = this.get('keywords').toArray();
+			var sorted_key_ids = this.get('keywordsSortedByIndex');
 			for (i=0;i<savedKeywordIds.length;i++) {
-				all_keywords.forEach(function(keyword){
-					if (keyword.get('id') === savedKeywordIds[i]) {
-						_this.get('keys').addObject(keyword);
-					}
-				});
+				this.get('keys').addObject(sorted_key_ids[savedKeywordIds[i]-1]);
 			}
 			doSavedSearchFlag = true;
 		}
@@ -101,11 +105,13 @@ export default Ember.Component.extend({
 		this.set('isClearing', false);
 
 		this.set('showSearch', this.get('session.data.showSearch'));
+/*		if (this.get('showSearch') === true) {
+			this.sendAction('requestKeywordsFromStore');
+		}*/
 
 		var tmp = this.get('session.data.centerType');
-
 		if (tmp !== undefined && tmp !== null) {
-			this.set('centerType', tmp);
+			this.set('selected_type', tmp);
 			doSavedSearchFlag = true;
 		}
 
@@ -140,40 +146,18 @@ export default Ember.Component.extend({
 		}
 
 		if (doSavedSearchFlag) {
-			Ember.run.once(this, this.global_search);
+			Ember.run.once(_this, _this.global_search);
 		} 
 		else 
 		{
 			this.set('filt_centers', this.get('centers').toArray());
 		}
 
+//		this.set('filt_centers', this.get('centers').toArray());
+
 /////////////////////
 
 	}.on('didInsertElement'),
-	initialize: function() {
-		this.set('selected_type', 0);
-
-		var keywords = this.get('keywords').toArray();
-		var keywordsSortedAlphabetically = keywords.sort(function(a, b){
-			if (a.get('keyword') > b.get('keyword')) {
-				return 1;
-			}
-			else {
-				return -1;
-			}
-		});
-		this.set('keywords', keywordsSortedAlphabetically);
-		var needs = this.get('needs').toArray();
-		var needsSortedByIndex = needs.sort(function(a, b){
-			if (a.get('id') > b.get('id')) {
-				return 1;
-			}
-			else {
-				return -1;
-			}
-		});
-		this.set('needs', needsSortedByIndex);
-	}.on('init'),
 	global_search: function() {
 		var _this = this;
 		if (this.get('isClearing')) {
@@ -208,163 +192,178 @@ export default Ember.Component.extend({
 
 		if (keys_selected.length) {
 			filtered_once = filter_by_keyword(type_centers, keys_selected);
-		}
-		else {
-			filtered_once = type_centers;
-		}
-
-
-		var needs_selected = this.get('ns');
-		var filtered_twice;
-/////////// save to cookie or localstorage
-		var needIds = [];
-		needs_selected.forEach(function(need){
-			needIds.push(need.get('id'));
-		});
-
-		var keywordIds = [];
-		keys_selected.forEach(function(keyword){
-			keywordIds.push(keyword.get('id'));
-		});
-
-		this.get('session').set('data.needs', needIds);
-		this.get('session').set('data.keywords', keywordIds);
-		this.get('session').set('data.centerType', selected_type);
-		this.get('session').set('data.placeToGeolocate', this.get('placeToGeolocate'));
-		this.get('session').set('data.placeToGeolocateText', $('#place_search').val());
-		this.get('session').set('data.by_address', this.get('by_address'));
-		this.get('session').set('data.by_me', this.get('by_me'));
-		this.get('session').set('data.bounds', this.get('bounds'));
-
-
-		if (needs_selected.length) {
-			//this is a promise - sucks
-			var promise_filtered_twice = filter_by_needs(filtered_once, needs_selected);
-			promise_filtered_twice.then(function(filtered_twice){
-					var filtered_thrice;
-
-					// start sorting
-
-
-					var sorted_centers;
-
-					if (_this.get('by_address')) {
-						var place = _this.get('placeToGeolocate');
-						if (place) {
-							sorted_centers = filtered_twice.sort(position(place.lat, place.lng));
-							_this.set('filt_centers', sorted_centers);
-							_this.set('loading', false);
-						  	_this.sendAction('moveMap', place, this.get('bounds'));
-						}
-						else {
-							alert('Παρακαλώ Εισάγετε Διεύθυνση');
-							_this.set('loading', false);
-						}
-					}
-					else if (_this.get('by_me')) { 
-					    if (navigator.geolocation) {
-					        return navigator.geolocation.getCurrentPosition(showPosition);
-					    } else {
-					        alert("Geolocation is not supported by this browser.");
-					    }
-						function showPosition(pos) {
-							sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
-							_this.set('filt_centers', sorted_centers);
-							var latLng = new window.google.maps.LatLng(
-					            pos.coords.latitude,
-					            pos.coords.longitude
-					        );
-							_this.sendAction('moveMap', latLng, 15);
-							_this.set('loading', false);
-						}
-					}
-
-
-					else {
-						filtered_thrice = filtered_twice;
-						_this.set('filt_centers', filtered_thrice);
-						_this.set('loading', false);
-					}
-
+			filtered_once.then(function(filtered_once){
+				continueFiltering(filtered_once);
 			});
 		}
 		else {
-			filtered_twice = filtered_once;
-			var filtered_thrice;
-
-
-			// start sorting
-
-
-			var sorted_centers;
-
-			if (_this.get('by_address')) {
-				var place = _this.get('placeToGeolocate');
-
-				if (place) {
-					sorted_centers = filtered_twice.sort(position(place.lat, place.lng));
-					this.set('filt_centers', sorted_centers);
-					this.set('loading', false);
-				  	_this.sendAction('moveMap', place, this.get('bounds'));
-				}
-				else {
-					alert('Παρακαλώ Εισάγετε Διεύθυνση');
-					_this.set('loading', false);
-				}
-			}
-			else if (_this.get('by_me')) { 
-			    if (navigator.geolocation) {
-			        return navigator.geolocation.getCurrentPosition(showPosition);
-			    } else {
-			        alert("Geolocation is not supported by this browser.");
-			    }
-				function showPosition(pos) {
-					var latLng = new window.google.maps.LatLng(
-			            pos.coords.latitude,
-			            pos.coords.longitude
-			        );
-					_this.sendAction('moveMap', latLng, 15);
-
-					sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
-					_this.set('filt_centers', sorted_centers);
-					_this.set('loading', false);
-
-				}
-			}
-
-
-			else {
-				filtered_thrice = filtered_twice;
-				this.set('filt_centers', filtered_thrice);
-				this.set('loading', false);
-
-			}
+			continueFiltering(type_centers);
 		}
 
-	
+		function continueFiltering(filtered_once){
+			var needs_selected = _this.get('ns');
+			var filtered_twice;
+	/////////// save to cookie or localstorage
+			var needIds = [];
+			needs_selected.forEach(function(need){
+				needIds.push(need.get('id'));
+			});
+
+			var keywordIds = [];
+			keys_selected.forEach(function(keyword){
+				keywordIds.push(keyword.get('id'));
+			});
+
+			_this.get('session').set('data.needs', needIds);
+			_this.get('session').set('data.keywords', keywordIds);
+			_this.get('session').set('data.centerType', selected_type);
+			_this.get('session').set('data.placeToGeolocate', _this.get('placeToGeolocate'));
+			_this.get('session').set('data.placeToGeolocateText', $('#place_search').val());
+			_this.get('session').set('data.bounds', _this.get('bounds'));
+
+
+			if (needs_selected.length) {
+				//this is a promise - sucks
+				var promise_filtered_twice = filter_by_needs(filtered_once, needs_selected);
+				promise_filtered_twice.then(function(filtered_twice){
+						var filtered_thrice;
+
+						// start sorting
+
+
+						var sorted_centers;
+
+						if (_this.get('by_address')) {
+							var place = _this.get('placeToGeolocate');
+							if (place) {
+								sorted_centers = filtered_twice.sort(position(place.lat, place.lng));
+								setFiltResult(sorted_centers)
+								_this.set('loading', false);
+							  	_this.sendAction('moveMap', place, _this.get('bounds'));
+							}
+							else {
+								alert('Παρακαλώ Εισάγετε Διεύθυνση');
+								_this.set('loading', false);
+							}
+						}
+						else if (_this.get('by_me')) { 
+						    if (navigator.geolocation) {
+						        return navigator.geolocation.getCurrentPosition(showPosition);
+						    } else {
+						        alert("Geolocation is not supported by this browser.");
+						    }
+							function showPosition(pos) {
+								sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
+								setFiltResult(sorted_centers);
+								var latLng = new window.google.maps.LatLng(
+						            pos.coords.latitude,
+						            pos.coords.longitude
+						        );
+								_this.sendAction('moveMap', latLng, 15);
+								_this.set('loading', false);
+							}
+						}
+
+
+						else {
+							filtered_thrice = filtered_twice;
+							setFiltResult(filtered_thrice);
+							_this.set('loading', false);
+						}
+
+				});
+			}
+			else {
+				filtered_twice = filtered_once;
+				var filtered_thrice;
+
+
+				// start sorting
+
+
+				var sorted_centers;
+
+				if (_this.get('by_address')) {
+					var place = _this.get('placeToGeolocate');
+
+					if (place) {
+						sorted_centers = filtered_twice.sort(position(place.lat, place.lng));
+						setFiltResult(sorted_centers);
+
+						_this.set('loading', false);
+					  	_this.sendAction('moveMap', place, _this.get('bounds'));
+					}
+					else {
+						alert('Παρακαλώ Εισάγετε Διεύθυνση');
+						_this.set('loading', false);
+					}
+				}
+				else if (_this.get('by_me')) { 
+				    if (navigator.geolocation) {
+				        return navigator.geolocation.getCurrentPosition(showPosition);
+				    } else {
+				        alert("Geolocation is not supported by this browser.");
+				    }
+					function showPosition(pos) {
+						var latLng = new window.google.maps.LatLng(
+				            pos.coords.latitude,
+				            pos.coords.longitude
+				        );
+						_this.sendAction('moveMap', latLng, 15);
+
+						sorted_centers = filtered_twice.sort(position(pos.coords.latitude, pos.coords.longitude));
+						setFiltResult(sorted_centers);
+
+						_this.set('loading', false);
+
+					}
+				}
+
+
+				else {
+					filtered_thrice = filtered_twice;
+					setFiltResult(filtered_thrice);
+					_this.set('loading', false);
+
+				}
+			}
+
+		}
+
+	function setFiltResult(filtered_centers) {
+		_this.set('filt_centers', filtered_centers);
+	}
+
 
 
 	function filter_by_keyword(centers, keys_selected) {
-		var filtered_by_key_centers = centers.filter(function(center){
-			var flag = false;
-			var center_keywords = center.get('keywords').toArray();
+		var promises_array = [];
+		centers.forEach(function(center){
+			promises_array.push(center.get('keywords'));
+		});
 
-			center_keywords.forEach(function(center_keyword){
-				if (flag === true) {
-					return;
-				}
-				keys_selected.forEach(function(key_selected){
+		return Ember.RSVP.all(promises_array).then(function(){
+			var filtered_by_key_centers = centers.filter(function(center){
+				var flag = false;
+				var center_keywords = center.get('keywords').toArray();
+
+				center_keywords.forEach(function(center_keyword){
 					if (flag === true) {
 						return;
 					}
-					if (center_keyword.get('keyword') === key_selected.get('keyword')) {
-						flag = true;
-					}
+					keys_selected.forEach(function(key_selected){
+						if (flag === true) {
+							return;
+						}
+						if (center_keyword.get('keyword') === key_selected.get('keyword')) {
+							flag = true;
+						}
+					});
 				});
+				return flag;
 			});
-			return flag;
+			return filtered_by_key_centers;		
 		});
-		return filtered_by_key_centers;		
 	}
 
 
@@ -727,6 +726,7 @@ export default Ember.Component.extend({
 		},
 		toggleSearch: function() {
 			this.toggleProperty('showSearch');
+//			this.sendAction('requestKeywordsFromStore');
 			this.get('session').set('data.showSearch', this.get('showSearch'));
 		}
 	}

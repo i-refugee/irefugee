@@ -15,11 +15,16 @@ export default Ember.Controller.extend({
       var _this = this;
       let { identification, password } = this.getProperties('identification', 'password');
       this.get('session').authenticate('authenticator:refugee', identification, password).then(function(){
-        }).catch((reason) => {
-        this.set('errorMessage', 'Λάθος Email ή Κωδικός');
-        setTimeout(function(){
-          _this.set('errorMessage', null);          
-        }, 5000);
+        },function(reason){
+          if (reason.errors === "Center not confirmed.") {
+            _this.set('errorMessage', 'Η ομάδα δεν έχει επιβεβαιωθεί ακόμα!');
+          }
+          else {
+            _this.set('errorMessage', 'Λάθος Email ή Κωδικός');
+          } 
+          setTimeout(function(){
+            _this.set('errorMessage', null);          
+          }, 5000);
       });
     }
   }

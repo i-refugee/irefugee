@@ -17,8 +17,32 @@ export default Ember.Component.extend({
 				_this.set('news', response);
 				_this.set('loading', false);
 			});
-		}, 60000);
+		}, 50000);
 		this.set('interval', interval);
+/*if(typeof(EventSource) !== "undefined") {
+console.log("events")
+} else {
+	console.log("no events")
+    // Sorry! No server-sent events support..
+}
+		var source = new EventSource("http://developmentserver.irefugee.gr/stream");
+		source.addEventListener('message', function(e) {
+		  console.log(e.data);
+		}, false);
+
+		source.addEventListener('open', function(e) {
+		  // Connection was opened. 
+		  console.log(e)
+		  console.log(e.data)
+		  console.log("connection opened")
+		}, false);
+
+		source.addEventListener('error', function(e) {
+		  if (e.readyState == EventSource.CLOSED) {
+		    // Connection was closed.
+		    console.log("connection closed")
+		  }
+		}, false);*/
 	}.on('init'),
 	stopInterval: function() {
 		clearInterval(this.get('interval'));

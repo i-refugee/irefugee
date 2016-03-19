@@ -1,0 +1,60 @@
+<div class="container-fluid">
+  <h3 class="text-center">Νέος Λογαριασμός</h3> 
+  <form {{action 'register' on='submit'}}>
+    <div class="row">
+      <div class="col-md-4 col-md-offset-4 col-xs-10 col-xs-offset-1">
+        <div class="form-group">
+          <label for="address_input">E-mail Λογαριασμού</label>
+          {{input value=model.email type="text" class="form-control" placeholder="E-mail Λογαριασμού" required="required"}}
+{{!--           {{#if (v-get model 'email' 'isInvalid')}}
+            <div class="error">
+              {{v-get model 'email' 'message'}}
+            </div>
+          {{/if}} --}}
+        </div>
+        <div class="form-group">
+          <label for="address_input">Κωδικός</label>
+          {{input value=model.password type="password" class="form-control" placeholder="Κωδικός" required="required"}}
+        </div>
+{{!--         {{#if (v-get model 'password' 'isInvalid')}}
+          <div class="error">
+            {{v-get model 'password' 'message'}}
+          </div>
+        {{/if}} --}}
+        <div class="form-group">
+          <label for="address_input">Επιβεβαίωση Κωδικού</label>
+          {{input value=passwordConfirmation type="password" class="form-control" placeholder="Επιβεβαίωση Κωδικού" required="required"}}
+        </div>
+        <div class="form-group">
+          <label for="address_input">Όνομα Ομάδας</label>
+          {{input value=model.name type="text" class="form-control" placeholder="Όνομα Ομάδας" required="required"}}
+{{!--           {{#if (v-get model 'name' 'isInvalid')}}
+            <div class="error">
+              {{v-get model 'name' 'message'}}
+            </div>
+          {{/if}} --}}
+        </div>
+        <div class="form-group">
+          <label for="address_input">Διεύθυνση</label>
+          {{input value=model.address type="text" class="form-control" id="address_input" placeholder="Διεύθυνση" required="required"}}
+        </div>
+        <div class="form-group">
+          <label for="phone_input">Τηλέφωνο</label>
+          {{input value=model.phoneNumber type="text" class="form-control" id="phone_input" placeholder="Τηλέφωνο" required="required"}}
+        </div>
+        <button type="submit" class="btn btn-success pull-right">Εγγραφή</button>
+        {{#if (eq success 2)}}
+          <div style="margin-top: 15%;" class="alert alert-success"> Ο λογαριασμός σας δημιουργήθηκε ! Θα επικοινωνήσουμε μαζί σας άμεσα για την ενεργοποίηση του. </div>
+        {{/if}}
+        {{#if (eq success 1)}}
+          <div style="margin-top: 15%;" class="alert alert-danger"> Κάτι πήγε στραβα! Επικοινωνήστε μαζί μας στο  <a href="mailto:info@irefugee.gr">info@irefugee.gr</a>  για να αποκτήσετε το λογαριασμό σας. </div>
+        {{/if}}
+        {{#if (eq success 3)}}
+          <div style="margin-top: 15%;" class="alert alert-danger"> Οι κωδικοί δεν ταιριάζουν </div>
+        {{/if}}           
+      </div>
+    </div>
+  </form>
+</div>
+
+{{outlet}}

@@ -1,6 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+	sortKeywordProperties: ['keyword'],
+	sortedKeywords: Ember.computed.sort('keywords', 'sortKeywordProperties'),
 	store: Ember.inject.service(),
 	session: Ember.inject.service(),
 	isEditing: false,

@@ -4,7 +4,7 @@ export default Ember.Controller.extend({
 	session: Ember.inject.service(),
 	initializeNavForMobile: function() {
 		$(document).ready(function(){
-			$('.nav li a').on('click', function(){
+			$('a.closes-navbar').on('click', function(){
 				$(".collapse").collapse('hide');
 			});
 		});
@@ -19,6 +19,9 @@ export default Ember.Controller.extend({
 	      }).catch((reason) => {
 	        this.set('errorMessage', reason.error || reason);
 	      });
+	    },
+	    password_change: function() {
+	    	this.toggleProperty('isShowingModal');
 	    }
 	}
 });

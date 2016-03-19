@@ -1,6 +1,19 @@
 <div class="row" style="margin-top: 30px;">
-<div class="col-xs-8 col-xs-offset-2">
+<div class="col-md-8 col-md-offset-2 col-xs-10 col-xs-offset-1">
 <h4 class="text-center">Oδηγίες Χρήσης</h4>
+
+<div class="row">
+<div class="main-container-video">
+  <div class="fixer-container-video">
+	{{#if media.isMobile}}
+		<iframe class="youtube-video" width="200" height="150" src="https://www.youtube.com/embed/j5OCJkh55Kk?rel=0" frameborder="0" allowfullscreen></iframe>
+	{{else}}
+		<iframe class="youtube-video" width="560" height="315" src="https://www.youtube.com/embed/j5OCJkh55Kk?rel=0" frameborder="0" allowfullscreen></iframe>
+	{{/if}}
+  </div>
+</div>
+</div>
+
 Οι <b>ομάδες</b>:
 <br>
 <br>
@@ -58,6 +71,8 @@
 Μπαίνοντας στο προφίλ της κάθε ομάδας μπορείτε να δείτε πληροφορίες για την ομάδα, το τηλέφωνο και το mail επικοινωνίας της καθώς τις τρέχουσες ανάγκες της και τις άμεσες ανάγκες της.</p>
 </li>
 </ol>
+
+
 </div>
 </div>
 {{outlet}}

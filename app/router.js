@@ -11,6 +11,9 @@ Router.map(function() {
   this.route('loading');
   this.route('about');
   this.route('how-to-use');
+  this.route('error');
+  this.route('settings');
+  this.route('register');
 });
 
 export default Router;

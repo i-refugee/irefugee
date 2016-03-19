@@ -1,15 +1,17 @@
 <div class="text-center alert-success">Δες πού και πώς μπορείς να συνδράμεις</div>
   <div class="needs">
     <div class="row">
-      <div class="col-md-2"><h4 title="Επιλέξτε βάσει ποιων βασικών αναγκών θέλετε να κάνετε αναζήτηση" class="text-center">Βασικές Ανάγκες</h4></div>
-    	{{#each needs as |need|}}
+      <div class="col-md-2"><h4 title="Επιλέξτε πατώντας πάνω στα εικονίδια βάσει ποιων βασικών αναγκών θέλετε να κάνετε αναζήτηση" class="text-center">Βασικές Ανάγκες</h4></div>
+    	{{#each needsSortedByIndex as |need|}}
         {{#if (eq need.id "1")}}
           <div class="col-md-2 col-xs-1 col-xs-offset-0 col-md-offset-0">
             <span {{action 'filter_by_needs' need}} class="fa-stack fa-2x">
                 {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
                 {{fa-icon title=need.name icon="fa fa-cutlery" class="fa-stack-1x black"}}
             </span>
-            <div {{action 'filter_by_needs' need}}><h5>Τρόφιμα</h5></div>
+            {{#if (not media.isMobile)}}
+              <div {{action 'filter_by_needs' need}}><h5>Τρόφιμα</h5></div>
+            {{/if}}
           </div>
         {{/if}}
         {{#if (eq need.id "2")}}
@@ -18,7 +20,9 @@
                 {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
                 {{fa-icon title=need.name icon="fa fa-suitcase" class="fa-stack-1x black"}}
             </span>
-            <div {{action 'filter_by_needs' need}}><h5>Ρουχισμός</h5></div>
+            {{#if (not media.isMobile)}}
+              <div {{action 'filter_by_needs' need}}><h5>Ρουχισμός</h5></div>
+            {{/if}}
           </div>
         {{/if}}
         {{#if (eq need.id "3")}}
@@ -27,7 +31,9 @@
                 {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
                 {{fa-icon title=need.name icon="fa fa-medkit" class="fa-stack-1x black"}}
             </span>
-            <div {{action 'filter_by_needs' need}}><h5>Φάρμακα</h5></div>
+            {{#if (not media.isMobile)}}
+              <div {{action 'filter_by_needs' need}}><h5>Φάρμακα</h5></div>
+            {{/if}}
           </div>
         {{/if}}
         {{#if (eq need.id "4")}}
@@ -36,7 +42,9 @@
                 {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
                 {{fa-icon title=need.name icon="fa fa-users" class="fa-stack-1x black"}}
             </span>
-            <div {{action 'filter_by_needs' need}}><h5>Ανθρώπινο δυναμικό</h5></div>
+            {{#if (not media.isMobile)}}
+              <div {{action 'filter_by_needs' need}}><h5>Ανθρώπινο δυναμικό</h5></div>
+            {{/if}}
           </div>
         {{/if}}
         {{#if (eq need.id "5")}}
@@ -45,7 +53,9 @@
                 {{fa-icon id=need.id icon="circle" class="fa-stack-2x icon-background-grey"}}
                 {{fa-icon title=need.name icon="fa fa-cart-plus" class="fa-stack-1x black"}}
             </span>
-            <div {{action 'filter_by_needs' need}}><h5>Διάφορα</h5></div>
+            {{#if (not media.isMobile)}}
+              <div {{action 'filter_by_needs' need}}><h5>Διάφορα</h5></div>
+            {{/if}}
           </div>
         {{/if}}
    	{{/each}}
@@ -76,13 +86,14 @@
   <div class="col-md-3 col-xs-6"><b> Αναζήτηση βάσει κωδικής λέξης: </b></div>
   <div class="col-md-4 col-xs-6">
       {{#power-select-multiple style="border-radius: 0;"
-        options=keywords
+        options=keywordsSortedAlphabetically
         selected=keys
-        searchField="keyword"
+        placeholder="Π.χ. γιατρός παιδίατρος"
+        searchField="keywordWithoutUnderscore"
         onchange=(action (mut keys))
         as |keyword|
       }}
-        {{keyword.keyword}}
+        {{keyword.keywordWithoutUnderscore}}
       {{/power-select-multiple}}
   </div>
 </div>  
@@ -115,7 +126,7 @@
   <div class="row" id="centers">
   <!-- item list -->
   	{{#each filt_centers as |center|}}
-    		<div class="col-xs-6">
+    		<div class="col-xs-6 center-column">
       	 {{box-center center=center}}
     		</div>
   	{{/each}}

@@ -38,5 +38,5 @@ export default Ember.Component.extend({
 				});
 			}
 		});
-	}.on('didInsertElement')
+	}//.on('didInsertElement')
 });

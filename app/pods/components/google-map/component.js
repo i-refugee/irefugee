@@ -4,13 +4,16 @@ export default Ember.Component.extend({
   markers: [],
   filterMap: function() {
     var _this = this;
-    if (!this.get('map')) {
+    if (!this.get('map') || !this.get('markers')) {
       return;
     }
 
     var markers = this.get('markers');
-
     markers.forEach(function(marker){
+      if (!marker) {
+        return;
+      }
+      // check if not null marker cause we push some in the array
       if (!filterById(marker.centerId, _this.get('filt_centers'))) {
         marker.setMap(null);
       }
@@ -27,7 +30,6 @@ export default Ember.Component.extend({
       }
       return false;
     }
-
   }.observes('filt_centers').on('didInsertElement'),
 	insertMap: function() {
     var position = this.get('position');
@@ -71,15 +73,14 @@ export default Ember.Component.extend({
 
       var map = new google.maps.Map(document.getElementById("map-canvas"),
     mapOptions);
-    
       var lt, lg, i, marker, latLng;
       var arr_of_promises = [];
       var markers = [];
       for (i=0; i<centers.length; i++){
         lt = centers[i].get('latitude');
         lg = centers[i].get('longitude');
-
         if (!lt || !lg) {
+          markers.push(null);
           continue;
         }
 
@@ -87,7 +88,7 @@ export default Ember.Component.extend({
             lt,
             lg
         );
-        
+
 /*        latLngBounds.extend(latLng);
 */
 
@@ -176,8 +177,10 @@ export default Ember.Component.extend({
               str.push("<i class='alert-color fa fa-2x fa-cart-plus'></i>");
             }
           });
+          if (!markers[i]) {
+            continue;
+          }
           markers[i].importantNeeds = needs;
-//          markers[i].importantNeeds = needs;
 
           marker = markers[i];
             marker.infowindow = new google.maps.InfoWindow({

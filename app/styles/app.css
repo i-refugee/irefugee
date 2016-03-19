@@ -4,6 +4,51 @@
   cursor: pointer;
 }
 
+
+.main-container-video {
+  float: left;
+  position: relative;
+  left: 50%;
+}
+.fixer-container-video {
+  float: left;
+  position: relative;
+  left: -50%;
+}
+
+.center-need .fa-warning {
+	margin-top: 3px;
+}
+
+.error {
+	color: #ff411f;
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-has-title .shepherd-content header {
+	color: white;
+	background: #BF4A4A;	
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-center.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-right.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before, .shepherd-element.shepherd-theme-arrows.shepherd-element-attached-top.shepherd-element-attached-left.shepherd-target-attached-bottom.shepherd-has-title .shepherd-content:before {
+	border-bottom-color: #BF4A4A;
+}
+
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+	background: #BF4A4A;
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-bottom.shepherd-element-attached-center .shepherd-content:before {
+	border-top-color: #BF4A4A;
+}
+
+.shepherd-element.shepherd-theme-arrows.shepherd-element-attached-right.shepherd-element-attached-middle .shepherd-content:before {
+	border-left-color: #BF4A4A;
+}
+
+.shepherd-box {
+	max-width: 47% !important;
+}
+
 .alert-color {
 	color: #a94442;
 }
@@ -164,6 +209,10 @@ body {
 	background-color:#fff;
 }
 
+/*.in .dropdown a {
+	color: white;
+}*/
+
 .navbar-custom {
 	background-color: #168ccc;
     color:#fff;
@@ -171,6 +220,10 @@ body {
 
 .navbar-custom li>a:hover,.navbar-custom li>a:focus {
 	background-color:#49bfff;
+}
+
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
+	background-color: #49bfff;
 }
 
 .navbar-custom a{
@@ -351,6 +404,18 @@ body {
 		margin-top: 20%;
 	}
 
+	.news-feed .list-group {
+		-webkit-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+		-moz-box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+		box-shadow: -1px 2px 5px 0px rgba(0,0,0,0.75);
+		border-radius: 0px;
+		height: 100%;
+	}
+
+	.list-group .list-group-item {
+		height: 80px;
+	}
+
 }
 
 
@@ -382,7 +447,20 @@ p {
 	margin-top: 40px;
 }
 
-.readmore {
-	cursor: pointer;
+.center-need .panel-body {
+	min-height: 100px;
 }
 
+.readmore {
+	cursor: pointer;
+	line-height: 10px;
+}
+
+@media (max-width: 350px) {
+	.center-column {
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: 0;
+		margin-right: 0;
+	}
+}

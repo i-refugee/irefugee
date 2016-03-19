@@ -1,7 +1,9 @@
 {{#if session.isAuthenticated}}
-{{#if isCurrentCenter}}
-	<button class="pull-right"><i {{action 'edit_keywords'}} class="fa fa-edit"></i></button>
-{{/if}}
+	{{#if isCurrentCenter}}
+		<form {{action 'edit_keywords' on='submit'}}>
+			<button class="pull-right" id="edit-keys"><i class="fa fa-edit"></i></button>
+		</form>
+	{{/if}}
 {{/if}}
 <h4 class="text-center alert alert-info"> Άμεσες Ανάγκες </h4>
 
@@ -10,13 +12,14 @@
 <div class="col-xs-12">
    <div>
 	    {{#power-select-multiple
-	      options=keywords
+	      options=sortedKeywords
 	      selected=keys
-	      searchField="keyword"
+	      placeholder="Π.χ. γιατρός παιδίατρος"
+          searchField="keywordWithoutUnderscore"
 	      onchange=(action (mut keys))
 	      as |keyword|
 	    }}
-	      {{keyword.keyword}}
+	      {{keyword.keywordWithoutUnderscore}}
 	    {{/power-select-multiple}}
   </div>
   <button {{action 'submit_keywords'}} class="btn btn-warning">Καταχώρηση</button>
