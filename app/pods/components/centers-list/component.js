@@ -166,8 +166,7 @@ export default Ember.Component.extend({
 
 		this.set('loading', true);
 		var centers = this.get('centers').toArray();
-	
-
+			
 		var selected_type = this.get('selected_type');
 
 		var type_centers;
@@ -447,9 +446,12 @@ export default Ember.Component.extend({
 		   var key =
 		       function(x) {
 			   
-			   
-			   
-			   return Math.sqrt(Math.pow(parseFloat(x.get('latitude')) - userLat,2) + Math.pow(parseFloat(x.get('longitude')) - userLong,2)); 
+			   		if (x.get('latitude') && x.get('longitude')) {
+						return Math.sqrt(Math.pow(parseFloat(x.get('latitude')) - userLat,2) + Math.pow(parseFloat(x.get('longitude')) - userLong,2)); 
+			   		} 
+			   		else {
+			   			return Number.MAX_VALUE;
+			   		}
 			   };
 				
 		       

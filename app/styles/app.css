@@ -4,6 +4,9 @@
   cursor: pointer;
 }
 
+.g-recaptcha {
+	float: right;
+}
 
 .main-container-video {
   float: left;
@@ -412,7 +415,7 @@ body {
 		height: 100%;
 	}
 
-	.list-group .list-group-item {
+	.news-feed .list-group .list-group-item {
 		height: 80px;
 	}
 

@@ -5,5 +5,6 @@ export default DS.Model.extend({
   need: DS.belongsTo('need', {async: true}),
   importance: DS.attr('number'),
   description: DS.attr('string'),
+  createdAt: DS.attr('date'),
   updatedAt: DS.attr('date')
 });

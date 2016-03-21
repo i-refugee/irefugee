@@ -1,4 +1,11 @@
-{{#each centerNeedsSortedByIndex as |centerNeed|}}
-	{{one-need centerNeed=centerNeed isCurrentCenter=isCurrentCenter}}
+{{#each centerNeedsSortedByIndexTripleGrouped as |centerNeedTriplet|}}
+	<div class="row">
+		{{#each centerNeedTriplet as |centerNeed|}}
+			{{one-need centerNeed=centerNeed isCurrentCenter=isCurrentCenter}}
+		{{/each}}
+	</div>
 {{/each}}
+
+
 {{yield}}
+
