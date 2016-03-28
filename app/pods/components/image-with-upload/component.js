@@ -32,7 +32,7 @@ export default Ember.Component.extend({
 			  }*/
 			  var _this = this;
 			  this.set('loading', true);
-		      file.upload("https://server.irefugee.gr/centers/" + this.get('session.data.currentCenterId') + "/upload",  { headers: { "Authorization": this.get('session.data.authenticated.access_token')}}).then(function (response) {
+		      file.upload("/" + this.get('session.data.currentCenterId') + "/upload",  { headers: { "Authorization": this.get('session.data.authenticated.access_token')}}).then(function (response) {
 		      	center.set('imageUrl', response.body.data.attributes.image_url);
 		      	_this.set('loading', false);
 		      }, function () {
